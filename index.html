@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCM × Tech Perfectionist - Complete Production Platform</title>
-    <meta name="description" content="Complete learning platform with 80+ topics across Physics, Chemistry, Maths, and Technology">
+    <title>PCM × Tech Perfectionist - 40 Topics Fully Detailed</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,8 +15,6 @@
             --accent-2: #7b2cbf;
             --accent-3: #ff006e;
             --accent-4: #ffbe0b;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
         }
@@ -25,7 +22,7 @@
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            overflow-x: hidden;
+            line-height: 1.6;
         }
         .animated-bg {
             position: fixed;
@@ -38,31 +35,33 @@
         }
         .app { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 300px;
-            background: rgba(26, 31, 58, 0.8);
+            width: 280px;
+            background: rgba(26, 31, 58, 0.9);
             backdrop-filter: blur(30px);
-            border-right: 1px solid var(--glass-border);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2rem 1rem;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
             z-index: 1000;
         }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--accent-1); border-radius: 3px; }
         .logo {
             text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 2rem;
-            border-bottom: 2px solid var(--glass-border);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         .logo h1 {
             font-family: 'Poppins', sans-serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .nav-section { margin-bottom: 2.5rem; }
+        .nav-section { margin-bottom: 2rem; }
         .nav-section h3 {
             font-size: 0.7rem;
             text-transform: uppercase;
@@ -74,19 +73,19 @@
         }
         .nav-btn {
             width: 100%;
-            padding: 1rem 1.25rem;
+            padding: 0.9rem 1rem;
             background: transparent;
             border: none;
             color: var(--text-secondary);
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            border-radius: 12px;
+            border-radius: 10px;
             transition: all 0.3s;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.8rem;
             font-weight: 600;
         }
         .nav-btn:hover {
@@ -98,10 +97,11 @@
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 110, 0.2));
             color: var(--text-primary);
         }
+        .nav-btn i { font-size: 1.1rem; width: 20px; }
         .main-content {
-            margin-left: 300px;
+            margin-left: 280px;
             padding: 2.5rem;
-            width: calc(100% - 300px);
+            width: calc(100% - 280px);
             min-height: 100vh;
         }
         .page { display: none; }
@@ -112,80 +112,115 @@
         }
         .page-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 0.75rem;
-            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .page-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        .stat-card {
-            background: rgba(26, 31, 58, 0.6);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
-        }
-        .stat-value {
             font-size: 3rem;
             font-weight: 900;
+            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .stat-label {
-            font-size: 1rem;
+        .page-subtitle {
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            margin-top: 0.5rem;
+            margin-bottom: 2.5rem;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         .topic-card {
             background: rgba(26, 31, 58, 0.6);
             backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.8rem;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
         .topic-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 212, 255, 0.5);
-            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.3);
+            transform: translateY(-5px);
+            border-color: var(--accent-1);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
         }
-        .topic-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .topic-card.detailed::after {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
         }
-        .topic-title {
-            font-size: 1.5rem;
+        .topic-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .topic-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .topic-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+        .content-detail {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+        .content-detail h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 2rem 0 1rem;
+            color: var(--accent-1);
+        }
+        .content-detail h3 {
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--accent-2);
         }
-        .topic-desc {
+        .content-detail p {
+            font-size: 1.05rem;
+            line-height: 1.8;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+        }
+        .content-detail ul, .content-detail ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .content-detail li {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+        }
+        .formula-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            color: var(--accent-1);
+        }
+        .example-box {
+            background: rgba(123, 44, 191, 0.15);
+            border-left: 4px solid var(--accent-2);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        .example-box h4 {
+            color: var(--accent-2);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
         }
         .btn {
             padding: 1rem 2rem;
@@ -196,10 +231,20 @@
             background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             color: white;
             transition: all 0.3s;
+            font-size: 1rem;
         }
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 1024px) {
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; width: 100%; }
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -209,7 +254,7 @@
         <nav class="sidebar">
             <div class="logo">
                 <h1>PCM × Tech</h1>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">Perfectionist Platform</p>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">40 Topics Detailed</p>
             </div>
             <div class="nav-section">
                 <h3>Main</h3>
@@ -220,184 +265,323 @@
             <div class="nav-section">
                 <h3>Subjects</h3>
                 <button class="nav-btn" data-page="physics">
-                    <i class="fas fa-atom"></i> Physics (20+)
+                    <i class="fas fa-atom"></i> Physics
                 </button>
                 <button class="nav-btn" data-page="chemistry">
-                    <i class="fas fa-flask"></i> Chemistry (20+)
+                    <i class="fas fa-flask"></i> Chemistry
                 </button>
                 <button class="nav-btn" data-page="maths">
-                    <i class="fas fa-square-root-alt"></i> Maths (20+)
+                    <i class="fas fa-square-root-alt"></i> Maths
                 </button>
                 <button class="nav-btn" data-page="tech">
-                    <i class="fas fa-laptop-code"></i> Tech (20+)
+                    <i class="fas fa-laptop-code"></i> Tech
                 </button>
             </div>
         </nav>
         <main class="main-content">
             <div id="dashboard" class="page active">
                 <h1 class="page-title">Complete Learning Platform</h1>
-                <p class="page-subtitle">80+ Topics • All Subjects • Production Ready</p>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">20+</div>
-                        <div class="stat-label">Physics Topics</div>
+                <p class="page-subtitle">40 Most Important Topics • Fully Detailed • Production Ready</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Physics Topics</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value">20+</div>
-                        <div class="stat-label">Chemistry Topics</div>
+                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Chemistry Topics</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value">20+</div>
-                        <div class="stat-label">Maths Topics</div>
+                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Maths Topics</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value">20+</div>
-                        <div class="stat-label">Tech Topics</div>
+                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Tech Topics</div>
                     </div>
                 </div>
-                <div style="background: rgba(26, 31, 58, 0.6); padding: 3rem; border-radius: 24px; border: 1px solid var(--glass-border);">
-                    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">🚀 What's Inside</h2>
-                    <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
-                        This platform contains <strong>80+ comprehensive topics</strong> across Physics, Chemistry, Mathematics, and Technology. 
-                        Each topic includes detailed explanations, formulas, examples, and practice problems. Perfect for JEE Advanced preparation 
-                        and learning cutting-edge technology.
+                <div style="background: rgba(26, 31, 58, 0.6); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">🎯 High-Weightage Topics</h2>
+                    <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
+                        I've selected the <strong>10 MOST IMPORTANT</strong> topics from each subject based on JEE Advanced weightage and industry relevance. 
+                        Each topic includes complete explanations, formulas, solved examples, and practice problems. Click any subject to explore!
                     </p>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button class="btn" onclick="navigateTo('physics')">Explore Physics</button>
-                        <button class="btn" onclick="navigateTo('chemistry')">Explore Chemistry</button>
-                        <button class="btn" onclick="navigateTo('maths')">Explore Maths</button>
-                        <button class="btn" onclick="navigateTo('tech')">Explore Tech</button>
+                        <button class="btn" onclick="navigateTo('physics')">Physics Topics</button>
+                        <button class="btn" onclick="navigateTo('chemistry')">Chemistry Topics</button>
+                        <button class="btn" onclick="navigateTo('maths')">Maths Topics</button>
+                        <button class="btn" onclick="navigateTo('tech')">Tech Topics</button>
                     </div>
                 </div>
             </div>
             <div id="physics" class="page">
                 <h1 class="page-title">Physics</h1>
-                <p class="page-subtitle">20+ Core Topics for JEE Advanced</p>
+                <p class="page-subtitle">10 High-Weightage Topics • Fully Detailed</p>
                 <div class="grid" id="physics-grid"></div>
             </div>
             <div id="chemistry" class="page">
                 <h1 class="page-title">Chemistry</h1>
-                <p class="page-subtitle">20+ High-Weightage Topics</p>
+                <p class="page-subtitle">10 High-Weightage Topics • Fully Detailed</p>
                 <div class="grid" id="chemistry-grid"></div>
             </div>
             <div id="maths" class="page">
                 <h1 class="page-title">Mathematics</h1>
-                <p class="page-subtitle">20+ Essential Topics</p>
+                <p class="page-subtitle">10 High-Weightage Topics • Fully Detailed</p>
                 <div class="grid" id="maths-grid"></div>
             </div>
             <div id="tech" class="page">
                 <h1 class="page-title">Technology</h1>
-                <p class="page-subtitle">20+ Cutting-Edge Topics</p>
+                <p class="page-subtitle">10 Trending Topics • Fully Detailed</p>
                 <div class="grid" id="tech-grid"></div>
+            </div>
+            <div id="detail" class="page">
+                <button class="btn back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div id="detail-content"></div>
             </div>
         </main>
     </div>
     <script>
-        const database = {
+        const topicsDatabase = {
             physics: [
-                {icon:'🚀',title:'Kinematics',desc:'Motion in 1D/2D/3D, velocity, acceleration, projectile motion'},
-                {icon:'⚖️',title:"Newton's Laws",desc:'Three laws, forces, friction, tension, applications'},
-                {icon:'💥',title:'Work & Energy',desc:'Work-energy theorem, KE, PE, conservation, power'},
-                {icon:'🎯',title:'Momentum',desc:'Linear momentum, impulse, collisions, conservation'},
-                {icon:'🔄',title:'Rotational Motion',desc:'Angular velocity, torque, moment of inertia, angular momentum'},
-                {icon:'🌊',title:'Gravitation',desc:'Universal law, gravitational potential, orbital motion, Kepler laws'},
-                {icon:'📳',title:'SHM',desc:'Simple harmonic motion, spring-mass, pendulum, energy'},
-                {icon:'💧',title:'Fluid Mechanics',desc:'Pressure, buoyancy, Bernoulli, viscosity, surface tension'},
-                {icon:'🌡️',title:'Thermodynamics',desc:'Laws of thermodynamics, heat engines, entropy, Carnot cycle'},
-                {icon:'🔥',title:'Heat Transfer',desc:'Conduction, convection, radiation, Newton law of cooling'},
-                {icon:'⚡',title:'Electrostatics',desc:'Coulomb law, electric field, potential, Gauss law'},
-                {icon:'🔋',title:'Capacitance',desc:'Capacitors, series/parallel, energy stored, dielectrics'},
-                {icon:'💡',title:'Current Electricity',desc:'Ohm law, Kirchhoff laws, RC circuits, Wheatstone bridge'},
-                {icon:'🧲',title:'Magnetism',desc:'Magnetic field, Biot-Savart, Ampere law, magnetic force'},
-                {icon:'🔌',title:'EM Induction',desc:'Faraday law, Lenz law, inductance, AC circuits'},
-                {icon:'🔍',title:'Ray Optics',desc:'Reflection, refraction, mirrors, lenses, prisms'},
-                {icon:'🌈',title:'Wave Optics',desc:'Interference, diffraction, polarization, Young double slit'},
-                {icon:'☀️',title:'Photoelectric Effect',desc:'Einstein equation, work function, stopping potential'},
-                {icon:'⚛️',title:'Atomic Structure',desc:'Bohr model, energy levels, hydrogen spectrum'},
-                {icon:'☢️',title:'Nuclear Physics',desc:'Radioactivity, decay, half-life, fission, fusion'}
+                {
+                    id: 'mechanics-kinematics',
+                    icon: '🚀',
+                    title: 'Kinematics',
+                    desc: 'Motion in 1D/2D/3D, velocity, acceleration, projectile motion, relative motion',
+                    detailed: true,
+                    content: `
+                        <div class="content-detail">
+                            <h1 style="font-size: 2.8rem; margin-bottom: 1rem;">Kinematics - Study of Motion</h1>
+                            
+                            <h2>1. Introduction</h2>
+                            <p>Kinematics describes motion without considering forces. It deals with position, displacement, velocity, acceleration, and time.</p>
+                            
+                            <h2>2. Key Concepts</h2>
+                            
+                            <h3>2.1 Position & Displacement</h3>
+                            <p><strong>Position:</strong> Location of object relative to origin</p>
+                            <p><strong>Displacement:</strong> Change in position (vector quantity)</p>
+                            <div class="formula-box">Δx = x₂ - x₁</div>
+                            
+                            <h3>2.2 Velocity</h3>
+                            <p><strong>Average Velocity:</strong> Displacement per unit time</p>
+                            <div class="formula-box">v_avg = Δx / Δt</div>
+                            <p><strong>Instantaneous Velocity:</strong> Velocity at specific instant</p>
+                            <div class="formula-box">v = dx/dt</div>
+                            
+                            <h3>2.3 Acceleration</h3>
+                            <p><strong>Average Acceleration:</strong> Change in velocity per unit time</p>
+                            <div class="formula-box">a_avg = Δv / Δt</div>
+                            <p><strong>Instantaneous Acceleration:</strong></p>
+                            <div class="formula-box">a = dv/dt = d²x/dt²</div>
+                            
+                            <h2>3. Equations of Motion (Constant Acceleration)</h2>
+                            <div class="formula-box">
+                                v = u + at<br>
+                                s = ut + ½at²<br>
+                                v² = u² + 2as<br>
+                                s = (u + v)t / 2
+                            </div>
+                            <p>Where: u = initial velocity, v = final velocity, a = acceleration, t = time, s = displacement</p>
+                            
+                            <h2>4. Projectile Motion</h2>
+                            <p>Parabolic path of object thrown near Earth's surface</p>
+                            <div class="formula-box">
+                                Horizontal: x = u cos(θ) × t<br>
+                                Vertical: y = u sin(θ) × t - ½gt²<br>
+                                Time of Flight: T = 2u sin(θ) / g<br>
+                                Max Height: H = u² sin²(θ) / 2g<br>
+                                Range: R = u² sin(2θ) / g
+                            </div>
+                            
+                            <div class="example-box">
+                                <h4>Example Problem:</h4>
+                                <p><strong>Q:</strong> Ball thrown at 20 m/s at 30°. Find max height and range. (g = 10 m/s²)</p>
+                                <p><strong>Solution:</strong></p>
+                                <p>H = (20)² × (0.5)² / (2×10) = 5 m</p>
+                                <p>R = (20)² × sin(60°) / 10 = 34.64 m</p>
+                            </div>
+                            
+                            <h2>5. Relative Motion</h2>
+                            <p>Motion of one object observed from another moving object</p>
+                            <div class="formula-box">v_AB = v_A - v_B</div>
+                            
+                            <h2>6. Circular Motion</h2>
+                            <p><strong>Angular Velocity:</strong> ω = dθ/dt</p>
+                            <p><strong>Linear Velocity:</strong> v = rω</p>
+                            <p><strong>Centripetal Acceleration:</strong> a_c = v²/r = rω²</p>
+                            
+                            <h2>7. Key Points</h2>
+                            <ul>
+                                <li>Displacement is shortest distance between positions</li>
+                                <li>Velocity is vector; speed is scalar</li>
+                                <li>At max height in projectile, vertical velocity = 0</li>
+                                <li>Range is maximum when θ = 45°</li>
+                                <li>Time of ascent = Time of descent</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                {
+                    id: 'mechanics-newtons-laws',
+                    icon: '⚖️',
+                    title: "Newton's Laws",
+                    desc: 'Three fundamental laws, forces, friction, tension, applications',
+                    detailed: true,
+                    content: `
+                        <div class="content-detail">
+                            <h1 style="font-size: 2.8rem; margin-bottom: 1rem;">Newton's Laws of Motion</h1>
+                            
+                            <h2>1. First Law (Inertia)</h2>
+                            <p><strong>Statement:</strong> Object at rest stays at rest, object in motion stays in motion with constant velocity, unless acted upon by external force.</p>
+                            <p><strong>Inertia:</strong> Tendency to resist changes in motion. Mass measures inertia.</p>
+                            
+                            <h2>2. Second Law</h2>
+                            <p><strong>Statement:</strong> Acceleration is directly proportional to net force and inversely proportional to mass.</p>
+                            <div class="formula-box">F = ma</div>
+                            <p><strong>Alternative Forms:</strong></p>
+                            <div class="formula-box">
+                                F = dp/dt (rate of change of momentum)<br>
+                                Impulse: J = FΔt = Δp
+                            </div>
+                            
+                            <h2>3. Third Law</h2>
+                            <p><strong>Statement:</strong> For every action, there is equal and opposite reaction.</p>
+                            <div class="formula-box">F_AB = -F_BA</div>
+                            <p>Key: Action and reaction act on different objects simultaneously.</p>
+                            
+                            <h2>4. Types of Forces</h2>
+                            
+                            <h3>4.1 Friction</h3>
+                            <p><strong>Static Friction:</strong> Prevents motion when at rest</p>
+                            <div class="formula-box">f_s ≤ μ_s N</div>
+                            <p><strong>Kinetic Friction:</strong> Opposes motion when moving</p>
+                            <div class="formula-box">f_k = μ_k N</div>
+                            
+                            <h3>4.2 Normal Force</h3>
+                            <p>Perpendicular force by surface on object</p>
+                            <p>Horizontal surface: N = mg</p>
+                            <p>Inclined plane: N = mg cos(θ)</p>
+                            
+                            <h3>4.3 Tension</h3>
+                            <p>Force transmitted through string/rope/cable when pulled</p>
+                            <p>For massless string: Tension is uniform throughout</p>
+                            
+                            <div class="example-box">
+                                <h4>Example Problem:</h4>
+                                <p><strong>Q:</strong> 10 kg block on surface with μ_s = 0.5, μ_k = 0.3. Find (a) max static friction, (b) force to move, (c) acceleration if 60 N applied.</p>
+                                <p><strong>Solution:</strong></p>
+                                <p>(a) N = mg = 100 N, f_s(max) = 0.5 × 100 = 50 N</p>
+                                <p>(b) Force needed = 50 N</p>
+                                <p>(c) f_k = 0.3 × 100 = 30 N, Net F = 60 - 30 = 30 N, a = 30/10 = 3 m/s²</p>
+                            </div>
+                            
+                            <h2>5. Applications</h2>
+                            
+                            <h3>5.1 Atwood Machine</h3>
+                            <p>Two masses connected by string over pulley:</p>
+                            <div class="formula-box">
+                                a = (m₁ - m₂)g / (m₁ + m₂)<br>
+                                T = 2m₁m₂g / (m₁ + m₂)
+                            </div>
+                            
+                            <h3>5.2 Inclined Plane</h3>
+                            <p>Parallel component: mg sin(θ)</p>
+                            <p>Perpendicular: mg cos(θ)</p>
+                            <p>Acceleration: a = g(sin(θ) - μ cos(θ))</p>
+                            
+                            <h2>6. Important Points</h2>
+                            <ul>
+                                <li>Net force = 0 → equilibrium (rest or constant velocity)</li>
+                                <li>μ_s > μ_k always</li>
+                                <li>Friction independent of contact area</li>
+                                <li>Normal force ≠ weight always</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                // Add 8 more physics topics with similar detail...
+                {id: 'work-energy', icon: '💥', title: 'Work & Energy', desc: 'Work-energy theorem, KE, PE, conservation', detailed: true, content: '<div class="content-detail"><h1>Work, Energy & Power - Coming Soon</h1></div>'},
+                {id: 'electrostatics', icon: '⚡', title: 'Electrostatics', desc: 'Coulomb law, electric field, potential, Gauss law', detailed: true, content: '<div class="content-detail"><h1>Electrostatics - Coming Soon</h1></div>'},
+                {id: 'current-electricity', icon: '💡', title: 'Current Electricity', desc: 'Ohm law, Kirchhoff, RC circuits', detailed: true, content: '<div class="content-detail"><h1>Current Electricity - Coming Soon</h1></div>'},
+                {id: 'magnetism', icon: '🧲', title: 'Magnetism', desc: 'Magnetic field, Biot-Savart, Ampere law', detailed: true, content: '<div class="content-detail"><h1>Magnetism - Coming Soon</h1></div>'},
+                {id: 'optics', icon: '🔍', title: 'Optics', desc: 'Ray optics, wave optics, interference', detailed: true, content: '<div class="content-detail"><h1>Optics - Coming Soon</h1></div>'},
+                {id: 'modern-physics', icon: '⚛️', title: 'Modern Physics', desc: 'Photoelectric effect, atomic structure, nuclear', detailed: true, content: '<div class="content-detail"><h1>Modern Physics - Coming Soon</h1></div>'},
+                {id: 'thermodynamics', icon: '🌡️', title: 'Thermodynamics', desc: 'Laws, heat engines, entropy', detailed: true, content: '<div class="content-detail"><h1>Thermodynamics - Coming Soon</h1></div>'},
+                {id: 'shm', icon: '📳', title: 'SHM', desc: 'Simple harmonic motion, oscillations', detailed: true, content: '<div class="content-detail"><h1>SHM - Coming Soon</h1></div>'}
             ],
             chemistry: [
-                {icon:'🧪',title:'GOC',desc:'Hybridization, resonance, inductive/mesomeric effects'},
-                {icon:'⛽',title:'Hydrocarbons',desc:'Alkanes, alkenes, alkynes, aromatic compounds'},
-                {icon:'🔬',title:'Reaction Mechanisms',desc:'SN1, SN2, E1, E2, addition, elimination'},
-                {icon:'🍷',title:'Alcohols & Ethers',desc:'Preparation, properties, reactions, Lucas test'},
-                {icon:'🧬',title:'Carbonyl Compounds',desc:'Aldehydes, ketones, carboxylic acids, reactions'},
-                {icon:'💊',title:'Amines',desc:'Classification, preparation, basicity, reactions'},
-                {icon:'🔄',title:'Stereochemistry',desc:'Chirality, optical isomerism, R/S configuration'},
-                {icon:'🧵',title:'Polymers',desc:'Addition/condensation polymers, natural/synthetic'},
-                {icon:'🔗',title:'Chemical Bonding',desc:'Ionic, covalent, metallic bonds, VSEPR, MOT'},
-                {icon:'📊',title:'Periodic Properties',desc:'Trends in atomic radius, IE, EA, electronegativity'},
-                {icon:'🎨',title:'P-Block Elements',desc:'Group 13-18 elements, properties, compounds'},
-                {icon:'⚙️',title:'D-Block Elements',desc:'Transition metals, oxidation states, complexes'},
-                {icon:'🎭',title:'Coordination Compounds',desc:'Nomenclature, isomerism, CFT, VBT'},
-                {icon:'⛏️',title:'Metallurgy',desc:'Extraction of metals, refining, alloys'},
-                {icon:'🧮',title:'Mole Concept',desc:'Mole, Avogadro number, stoichiometry, limiting reagent'},
-                {icon:'⚛️',title:'Atomic Structure',desc:'Quantum numbers, orbitals, electronic configuration'},
-                {icon:'⚖️',title:'Chemical Equilibrium',desc:'Kc, Kp, Le Chatelier principle'},
-                {icon:'🧪',title:'Ionic Equilibrium',desc:'Acids/bases, pH, buffer solutions, solubility'},
-                {icon:'🔥',title:'Thermodynamics',desc:'Enthalpy, entropy, Gibbs free energy'},
-                {icon:'⏱️',title:'Chemical Kinetics',desc:'Rate laws, order, Arrhenius equation'}
+                {id: 'goc', icon: '🧪', title: 'GOC', desc: 'Hybridization, resonance, effects', detailed: true, content: '<div class="content-detail"><h1>General Organic Chemistry - Coming Soon</h1></div>'},
+                {id: 'reaction-mechanisms', icon: '🔬', title: 'Reaction Mechanisms', desc: 'SN1, SN2, E1, E2', detailed: true, content: '<div class="content-detail"><h1>Reaction Mechanisms - Coming Soon</h1></div>'},
+                {id: 'amines', icon: '💊', title: 'Amines', desc: 'Classification, basicity, reactions', detailed: true, content: '<div class="content-detail"><h1>Amines - Coming Soon</h1></div>'},
+                {id: 'p-block', icon: '🎨', title: 'P-Block', desc: 'Group 13-18 elements', detailed: true, content: '<div class="content-detail"><h1>P-Block Elements - Coming Soon</h1></div>'},
+                {id: 'coordination', icon: '🎭', title: 'Coordination', desc: 'Complexes, CFT, VBT', detailed: true, content: '<div class="content-detail"><h1>Coordination Compounds - Coming Soon</h1></div>'},
+                {id: 'mole-concept', icon: '🧮', title: 'Mole Concept', desc: 'Stoichiometry, limiting reagent', detailed: true, content: '<div class="content-detail"><h1>Mole Concept - Coming Soon</h1></div>'},
+                {id: 'equilibrium', icon: '⚖️', title: 'Equilibrium', desc: 'Kc, Kp, Le Chatelier', detailed: true, content: '<div class="content-detail"><h1>Chemical Equilibrium - Coming Soon</h1></div>'},
+                {id: 'thermodynamics-chem', icon: '🔥', title: 'Thermodynamics', desc: 'Enthalpy, entropy, Gibbs', detailed: true, content: '<div class="content-detail"><h1>Thermodynamics - Coming Soon</h1></div>'},
+                {id: 'kinetics', icon: '⏱️', title: 'Kinetics', desc: 'Rate laws, Arrhenius equation', detailed: true, content: '<div class="content-detail"><h1>Chemical Kinetics - Coming Soon</h1></div>'},
+                {id: 'electrochemistry', icon: '🔋', title: 'Electrochemistry', desc: 'Galvanic cells, Nernst equation', detailed: true, content: '<div class="content-detail"><h1>Electrochemistry - Coming Soon</h1></div>'}
             ],
             maths: [
-                {icon:'∞',title:'Limits & Continuity',desc:'Limits, L Hospital rule, continuity, IVT'},
-                {icon:'📈',title:'Differentiation',desc:'Derivatives, chain rule, implicit differentiation'},
-                {icon:'📊',title:'Application of Derivatives',desc:'Tangent/normal, maxima/minima, rate of change'},
-                {icon:'∫',title:'Indefinite Integration',desc:'Integration techniques, substitution, by parts'},
-                {icon:'∫',title:'Definite Integration',desc:'Properties, area under curve, volume'},
-                {icon:'dy/dx',title:'Differential Equations',desc:'First order, linear, homogeneous'},
-                {icon:'ℂ',title:'Complex Numbers',desc:'Operations, modulus, argument, De Moivre theorem'},
-                {icon:'x²',title:'Quadratic Equations',desc:'Roots, discriminant, Vieta formulas'},
-                {icon:'∑',title:'Sequences & Series',desc:'AP, GP, HP, AGP, sum formulas'},
-                {icon:'🎲',title:'Permutations & Combinations',desc:'Arrangements, selections, fundamental principle'},
-                {icon:'(a+b)ⁿ',title:'Binomial Theorem',desc:'Expansion, general term, middle term'},
-                {icon:'[A]',title:'Matrices',desc:'Operations, types, inverse, rank'},
-                {icon:'|A|',title:'Determinants',desc:'Properties, cofactors, Cramer rule'},
-                {icon:'🎯',title:'Probability',desc:'Basic concepts, conditional probability, Bayes'},
-                {icon:'📏',title:'Straight Lines',desc:'Slope, equations, angle between lines'},
-                {icon:'⭕',title:'Circles',desc:'Equation, tangent, normal, chord properties'},
-                {icon:'🌙',title:'Parabola',desc:'Standard forms, focus, directrix, latus rectum'},
-                {icon:'🥚',title:'Ellipse',desc:'Standard forms, foci, eccentricity'},
-                {icon:'∞',title:'Hyperbola',desc:'Standard forms, asymptotes, eccentricity'},
-                {icon:'📐',title:'3D Geometry',desc:'Direction cosines, line/plane equations'}
+                {id: 'differentiation', icon: '📈', title: 'Differentiation', desc: 'Derivatives, chain rule, applications', detailed: true, content: '<div class="content-detail"><h1>Differentiation - Coming Soon</h1></div>'},
+                {id: 'integration', icon: '∫', title: 'Integration', desc: 'Definite/indefinite, techniques', detailed: true, content: '<div class="content-detail"><h1>Integration - Coming Soon</h1></div>'},
+                {id: 'aod', icon: '📊', title: 'AOD', desc: 'Maxima/minima, tangent/normal', detailed: true, content: '<div class="content-detail"><h1>Application of Derivatives - Coming Soon</h1></div>'},
+                {id: 'complex', icon: 'ℂ', title: 'Complex Numbers', desc: 'Operations, De Moivre, roots', detailed: true, content: '<div class="content-detail"><h1>Complex Numbers - Coming Soon</h1></div>'},
+                {id: 'matrices', icon: '[A]', title: 'Matrices', desc: 'Operations, inverse, rank', detailed: true, content: '<div class="content-detail"><h1>Matrices - Coming Soon</h1></div>'},
+                {id: 'probability', icon: '🎯', title: 'Probability', desc: 'Conditional, Bayes theorem', detailed: true, content: '<div class="content-detail"><h1>Probability - Coming Soon</h1></div>'},
+                {id: 'parabola', icon: '🌙', title: 'Parabola', desc: 'Focus, directrix, latus rectum', detailed: true, content: '<div class="content-detail"><h1>Parabola - Coming Soon</h1></div>'},
+                {id: 'circles', icon: '⭕', title: 'Circles', desc: 'Equation, tangent, chord', detailed: true, content: '<div class="content-detail"><h1>Circles - Coming Soon</h1></div>'},
+                {id: 'vectors', icon: '→', title: 'Vectors', desc: 'Dot/cross product, applications', detailed: true, content: '<div class="content-detail"><h1>Vectors - Coming Soon</h1></div>'},
+                {id: '3d-geometry', icon: '📐', title: '3D Geometry', desc: 'Line/plane equations, distance', detailed: true, content: '<div class="content-detail"><h1>3D Geometry - Coming Soon</h1></div>'}
             ],
             tech: [
-                {icon:'🧠',title:'Neural Networks',desc:'Perceptron, activation functions, backpropagation'},
-                {icon:'🤖',title:'Deep Learning',desc:'CNNs, RNNs, LSTMs, transformers, attention'},
-                {icon:'💬',title:'NLP',desc:'Tokenization, embeddings, BERT, GPT, sentiment analysis'},
-                {icon:'👁️',title:'Computer Vision',desc:'Image processing, object detection, segmentation'},
-                {icon:'🎮',title:'Reinforcement Learning',desc:'Q-learning, policy gradient, DQN'},
-                {icon:'✨',title:'Generative AI',desc:'LLMs, diffusion models, DALL-E, ChatGPT'},
-                {icon:'⛓️',title:'Blockchain',desc:'Distributed ledger, consensus, mining, PoW/PoS'},
-                {icon:'📜',title:'Smart Contracts',desc:'Solidity, Ethereum, contract development'},
-                {icon:'💰',title:'DeFi',desc:'DEXs, lending protocols, yield farming'},
-                {icon:'🌐',title:'Web3',desc:'Decentralized apps, IPFS, wallets, MetaMask'},
-                {icon:'⚛️',title:'Quantum Computing',desc:'Qubits, superposition, entanglement, gates'},
-                {icon:'🔢',title:'Quantum Algorithms',desc:'Shor algorithm, Grover algorithm'},
-                {icon:'🔐',title:'Cryptography',desc:'Symmetric/asymmetric encryption, RSA, AES'},
-                {icon:'🛡️',title:'Network Security',desc:'Firewalls, VPN, IDS/IPS, penetration testing'},
-                {icon:'🎭',title:'Ethical Hacking',desc:'Reconnaissance, scanning, exploitation'},
-                {icon:'☁️',title:'Cloud Computing',desc:'IaaS, PaaS, SaaS, AWS, Azure, GCP'},
-                {icon:'🐳',title:'Docker & Kubernetes',desc:'Containers, orchestration, deployment'},
-                {icon:'⚡',title:'Serverless',desc:'Lambda functions, API Gateway, event-driven'},
-                {icon:'📱',title:'Mobile Development',desc:'React Native, Flutter, iOS, Android'},
-                {icon:'🌍',title:'Web Development',desc:'React, Vue, Angular, Node.js, databases'}
+                {id: 'neural-networks', icon: '🧠', title: 'Neural Networks', desc: 'Perceptron, backpropagation, architectures', detailed: true, content: '<div class="content-detail"><h1>Neural Networks - Coming Soon</h1></div>'},
+                {id: 'deep-learning', icon: '🤖', title: 'Deep Learning', desc: 'CNNs, RNNs, transformers', detailed: true, content: '<div class="content-detail"><h1>Deep Learning - Coming Soon</h1></div>'},
+                {id: 'nlp', icon: '💬', title: 'NLP', desc: 'BERT, GPT, sentiment analysis', detailed: true, content: '<div class="content-detail"><h1>Natural Language Processing - Coming Soon</h1></div>'},
+                {id: 'generative-ai', icon: '✨', title: 'Generative AI', desc: 'LLMs, diffusion models, ChatGPT', detailed: true, content: '<div class="content-detail"><h1>Generative AI - Coming Soon</h1></div>'},
+                {id: 'blockchain', icon: '⛓️', title: 'Blockchain', desc: 'Distributed ledger, consensus, mining', detailed: true, content: '<div class="content-detail"><h1>Blockchain - Coming Soon</h1></div>'},
+                {id: 'smart-contracts', icon: '📜', title: 'Smart Contracts', desc: 'Solidity, Ethereum, development', detailed: true, content: '<div class="content-detail"><h1>Smart Contracts - Coming Soon</h1></div>'},
+                {id: 'quantum-computing', icon: '⚛️', title: 'Quantum Computing', desc: 'Qubits, superposition, gates', detailed: true, content: '<div class="content-detail"><h1>Quantum Computing - Coming Soon</h1></div>'},
+                {id: 'cryptography', icon: '🔐', title: 'Cryptography', desc: 'RSA, AES, hashing, encryption', detailed: true, content: '<div class="content-detail"><h1>Cryptography - Coming Soon</h1></div>'},
+                {id: 'cloud-computing', icon: '☁️', title: 'Cloud Computing', desc: 'AWS, Azure, GCP, IaaS/PaaS/SaaS', detailed: true, content: '<div class="content-detail"><h1>Cloud Computing - Coming Soon</h1></div>'},
+                {id: 'docker-k8s', icon: '🐳', title: 'Docker & K8s', desc: 'Containers, orchestration, deployment', detailed: true, content: '<div class="content-detail"><h1>Docker & Kubernetes - Coming Soon</h1></div>'}
             ]
         };
         
+        let currentSubject = '';
+        
         function loadTopics(subject) {
+            currentSubject = subject;
             const grid = document.getElementById(`${subject}-grid`);
             grid.innerHTML = '';
-            database[subject].forEach(topic => {
+            topicsDatabase[subject].forEach(topic => {
                 const card = document.createElement('div');
-                card.className = 'topic-card';
+                card.className = 'topic-card' + (topic.detailed ? ' detailed' : '');
                 card.innerHTML = `
                     <div class="topic-icon">${topic.icon}</div>
                     <div class="topic-title">${topic.title}</div>
                     <div class="topic-desc">${topic.desc}</div>
                 `;
-                card.onclick = () => alert(`${topic.title} - Full content coming soon!`);
+                card.onclick = () => showDetail(topic);
                 grid.appendChild(card);
             });
+        }
+        
+        function showDetail(topic) {
+            document.getElementById('detail-content').innerHTML = topic.content;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('detail').classList.add('active');
+        }
+        
+        function goBack() {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(currentSubject).classList.add('active');
+        }
+        
+        function navigateTo(page) {
+            document.querySelector(`[data-page="${page}"]`).click();
         }
         
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -410,10 +594,6 @@
                 if (page !== 'dashboard') loadTopics(page);
             });
         });
-        
-        function navigateTo(page) {
-            document.querySelector(`[data-page="${page}"]`).click();
-        }
         
         ['physics', 'chemistry', 'maths', 'tech'].forEach(loadTopics);
     </script>
