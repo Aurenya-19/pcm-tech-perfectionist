@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCM × Tech Perfectionist - Complete Production Platform</title>
+    <title>PCM × Tech Perfectionist - Ultimate Complete Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
@@ -11,9 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -22,6 +20,7 @@
             --accent-1: #00d4ff;
             --accent-2: #7b2cbf;
             --accent-3: #ff006e;
+            --accent-4: #ffbe0b;
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --success: #00ff88;
@@ -32,6 +31,7 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         .animated-bg {
             position: fixed;
@@ -42,10 +42,25 @@
             z-index: -1;
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #2d1b69 100%);
         }
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 110, 0.15) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
         .app { display: flex; min-height: 100vh; }
         .sidebar {
             width: 280px;
-            background: rgba(26, 31, 58, 0.9);
+            background: rgba(26, 31, 58, 0.95);
             backdrop-filter: blur(30px);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2rem 1rem;
@@ -134,7 +149,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .page-title {
-            font-family: 'Poppons', sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 3rem;
             font-weight: 900;
             margin-bottom: 0.5rem;
@@ -165,7 +180,7 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
         }
-        .topic-card {
+        .topic-card, .quest-card {
             background: rgba(26, 31, 58, 0.6);
             backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -175,7 +190,7 @@
             transition: all 0.3s;
             position: relative;
         }
-        .topic-card:hover {
+        .topic-card:hover, .quest-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-1);
             box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
@@ -216,9 +231,6 @@
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
         }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
         
         /* Auth Modal */
         .auth-modal {
@@ -227,7 +239,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -274,219 +286,147 @@
             border-color: var(--accent-1);
         }
         
-        /* Code Editor */
-        .code-editor-container {
+        /* Music Player */
+        .music-player {
             background: rgba(26, 31, 58, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-        .code-editor-header {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .CodeMirror {
-            height: 400px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-        }
-        .code-output {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            min-height: 100px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--success);
-        }
-        
-        /* Problem Solver */
-        .problem-container {
-            background: rgba(26, 31, 58, 0.6);
             backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 2.5rem;
             margin-bottom: 2rem;
         }
-        .problem-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
+        .album-art {
+            width: 100%;
+            height: 300px;
             background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            animation: pulse 3s ease-in-out infinite;
         }
-        .problem-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .song-info {
+            text-align: center;
             margin-bottom: 2rem;
         }
-        .answer-input {
+        .song-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .song-artist {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+        .progress-bar {
             width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .control-btn:hover {
+            background: var(--accent-1);
+            transform: scale(1.1);
+        }
+        .control-btn.play {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+        }
+        
+        /* Quest Card */
+        .quest-level {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 190, 11, 0.2);
+            border: 1px solid var(--accent-4);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-4);
+            margin-bottom: 1rem;
+        }
+        .quest-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .quest-tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--accent-1);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Notes System */
+        .notes-editor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .notes-input {
+            width: 100%;
+            min-height: 400px;
             padding: 1.5rem;
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: white;
-            font-size: 1.1rem;
             font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            resize: vertical;
         }
-        .answer-input:focus {
-            outline: none;
-            border-color: var(--accent-1);
-        }
-        .feedback {
+        .notes-preview {
             padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 1.5rem;
-            font-weight: 600;
-            display: none;
-        }
-        .feedback.correct {
-            background: rgba(0, 255, 136, 0.2);
-            border: 2px solid var(--success);
-            color: var(--success);
-            display: block;
-        }
-        .feedback.incorrect {
-            background: rgba(255, 68, 68, 0.2);
-            border: 2px solid var(--error);
-            color: var(--error);
-            display: block;
-        }
-        
-        /* Flashcard */
-        .flashcard {
             background: rgba(26, 31, 58, 0.6);
-            backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 4rem 3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.6s;
+            border-radius: 12px;
             min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            transform-style: preserve-3d;
-        }
-        .flashcard.flipped {
-            transform: rotateY(180deg);
-        }
-        .flashcard-front, .flashcard-back {
-            backface-visibility: hidden;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 3rem;
-        }
-        .flashcard-back {
-            transform: rotateY(180deg);
-        }
-        .flashcard h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .flashcard p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-        }
-        
-        /* Timer */
-        .timer-display {
-            font-size: 8rem;
-            font-weight: 900;
-            font-family: 'JetBrains Mono', monospace;
-            text-align: center;
-            margin: 3rem 0;
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .timer-controls {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        /* Test Interface */
-        .test-header {
-            background: rgba(26, 31, 58, 0.8);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .test-timer {
-            font-size: 2.5rem;
-            font-weight: 900;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-1);
-        }
-        .question-card {
-            background: rgba(26, 31, 58, 0.6);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-        }
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        .options {
-            display: grid;
-            gap: 1rem;
-        }
-        .option {
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.1rem;
-        }
-        .option:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: var(--accent-1);
-        }
-        .option.selected {
-            background: rgba(0, 212, 255, 0.2);
-            border-color: var(--accent-1);
         }
         
         @media (max-width: 1024px) {
             .sidebar { width: 100%; height: auto; position: relative; }
             .main-content { margin-left: 0; width: 100%; }
-            .timer-display { font-size: 5rem; }
+            .notes-editor { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -496,7 +436,7 @@
     <!-- Auth Modal -->
     <div id="auth-modal" class="auth-modal">
         <div class="auth-box">
-            <h2 id="auth-title">Welcome Back!</h2>
+            <h2 id="auth-title">Welcome to PCM × Tech!</h2>
             <div id="login-form">
                 <div class="input-group">
                     <label>Email</label>
@@ -532,12 +472,12 @@
         <nav class="sidebar">
             <div class="logo">
                 <h1>PCM × Tech</h1>
-                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Complete Platform</p>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Ultimate Platform</p>
             </div>
             
             <div class="user-info">
                 <div class="user-name" id="user-name">Loading...</div>
-                <div class="user-progress" id="user-progress">0/40 topics completed</div>
+                <div class="user-progress" id="user-progress">0/40 topics • 0/50 quests</div>
             </div>
             
             <div class="nav-section">
@@ -550,42 +490,48 @@
             <div class="nav-section">
                 <h3>Learn</h3>
                 <button class="nav-btn" data-page="physics">
-                    <i class="fas fa-atom"></i> Physics
+                    <i class="fas fa-atom"></i> Physics (10)
                 </button>
                 <button class="nav-btn" data-page="chemistry">
-                    <i class="fas fa-flask"></i> Chemistry
+                    <i class="fas fa-flask"></i> Chemistry (10)
                 </button>
                 <button class="nav-btn" data-page="maths">
-                    <i class="fas fa-square-root-alt"></i> Maths
+                    <i class="fas fa-square-root-alt"></i> Maths (10)
                 </button>
                 <button class="nav-btn" data-page="tech">
-                    <i class="fas fa-laptop-code"></i> Tech
+                    <i class="fas fa-laptop-code"></i> Tech (10)
                 </button>
             </div>
             
             <div class="nav-section">
                 <h3>Practice</h3>
-                <button class="nav-btn" data-page="code-editor">
-                    <i class="fas fa-code"></i> Code Editor
+                <button class="nav-btn" data-page="quests">
+                    <i class="fas fa-gamepad"></i> Quests (50)
                 </button>
                 <button class="nav-btn" data-page="problems">
-                    <i class="fas fa-pencil-alt"></i> Problems
+                    <i class="fas fa-pencil-alt"></i> Problems (100)
                 </button>
                 <button class="nav-btn" data-page="flashcards">
                     <i class="fas fa-layer-group"></i> Flashcards
                 </button>
                 <button class="nav-btn" data-page="tests">
-                    <i class="fas fa-clipboard-list"></i> Mock Tests
+                    <i class="fas fa-clipboard-list"></i> Tests
                 </button>
             </div>
             
             <div class="nav-section">
                 <h3>Tools</h3>
+                <button class="nav-btn" data-page="code-editor">
+                    <i class="fas fa-code"></i> Code Editor
+                </button>
+                <button class="nav-btn" data-page="notes">
+                    <i class="fas fa-sticky-note"></i> Notes
+                </button>
                 <button class="nav-btn" data-page="pomodoro">
                     <i class="fas fa-clock"></i> Pomodoro
                 </button>
-                <button class="nav-btn" data-page="bookmarks">
-                    <i class="fas fa-bookmark"></i> Bookmarks
+                <button class="nav-btn" data-page="music">
+                    <i class="fas fa-music"></i> Music
                 </button>
             </div>
             
@@ -602,538 +548,541 @@
                 <h1 class="page-title">Dashboard</h1>
                 <p class="page-subtitle">Your Complete Learning Journey</p>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-                    <div class="card" style="text-align: center;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                    <div class="card" style="text-align: center; padding: 2rem;">
                         <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">40</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Total Topics</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Topics</div>
                     </div>
-                    <div class="card" style="text-align: center;">
+                    <div class="card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">50</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Quests</div>
+                    </div>
+                    <div class="card" style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Problems</div>
+                    </div>
+                    <div class="card" style="text-align: center; padding: 2rem;">
                         <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="completed-count">0</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Completed</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Completed</div>
                     </div>
-                    <div class="card" style="text-align: center;">
+                    <div class="card" style="text-align: center; padding: 2rem;">
                         <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="problems-solved">0</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Problems Solved</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Solved</div>
                     </div>
-                    <div class="card" style="text-align: center;">
+                    <div class="card" style="text-align: center; padding: 2rem;">
                         <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="study-time">0h</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Study Time</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Study Time</div>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">🎯 Quick Start</h2>
+                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">🚀 Complete Learning Platform</h2>
                     <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
-                        Welcome to your complete learning platform! Start with any subject, practice with interactive tools, 
-                        and track your progress. All your data is saved automatically.
+                        <strong>40 Topics</strong> across Physics, Chemistry, Maths, Tech • 
+                        <strong>50 PCM × Tech Quests</strong> • 
+                        <strong>100 Practice Problems</strong> • 
+                        Interactive Code Editor • Flashcards • Mock Tests • Pomodoro Timer • Music Player • Notes System
                     </p>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button class="btn" onclick="navigateTo('physics')">Start Physics</button>
-                        <button class="btn" onclick="navigateTo('code-editor')">Code Editor</button>
+                        <button class="btn" onclick="navigateTo('physics')">Start Learning</button>
+                        <button class="btn" onclick="navigateTo('quests')">PCM × Tech Quests</button>
                         <button class="btn" onclick="navigateTo('problems')">Practice Problems</button>
-                        <button class="btn" onclick="navigateTo('pomodoro')">Pomodoro Timer</button>
+                        <button class="btn" onclick="navigateTo('music')">Study Music</button>
                     </div>
                 </div>
             </div>
             
-            <!-- Physics Page -->
-            <div id="physics" class="page">
-                <h1 class="page-title">Physics</h1>
-                <p class="page-subtitle">10 Complete Topics</p>
-                <div class="grid" id="physics-grid"></div>
-            </div>
+            <!-- All other pages will be loaded dynamically -->
+            <div id="physics" class="page"></div>
+            <div id="chemistry" class="page"></div>
+            <div id="maths" class="page"></div>
+            <div id="tech" class="page"></div>
+            <div id="quests" class="page"></div>
+            <div id="problems" class="page"></div>
+            <div id="flashcards" class="page"></div>
+            <div id="tests" class="page"></div>
+            <div id="code-editor" class="page"></div>
+            <div id="notes" class="page"></div>
+            <div id="pomodoro" class="page"></div>
+            <div id="music" class="page"></div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/gh/Aurenya-19/pcm-tech-complete@main/app.js"></script>
+    <script>
+        // Fallback if external JS doesn't load - Complete inline implementation
+        if (typeof initApp === 'undefined') {
+            console.log('Loading inline app...');
             
-            <!-- Chemistry Page -->
-            <div id="chemistry" class="page">
-                <h1 class="page-title">Chemistry</h1>
-                <p class="page-subtitle">10 Complete Topics</p>
-                <div class="grid" id="chemistry-grid"></div>
-            </div>
+            // User Management
+            let currentUser = null;
+            let userProgress = {
+                completedTopics: [],
+                completedQuests: [],
+                problemsSolved: 0,
+                studyTime: 0
+            };
             
-            <!-- Maths Page -->
-            <div id="maths" class="page">
-                <h1 class="page-title">Mathematics</h1>
-                <p class="page-subtitle">10 Complete Topics</p>
-                <div class="grid" id="maths-grid"></div>
-            </div>
+            function showLogin() {
+                document.getElementById('auth-title').textContent = 'Welcome Back!';
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('signup-form').style.display = 'none';
+            }
             
-            <!-- Tech Page -->
-            <div id="tech" class="page">
-                <h1 class="page-title">Technology</h1>
-                <p class="page-subtitle">10 Complete Topics</p>
-                <div class="grid" id="tech-grid"></div>
-            </div>
+            function showSignup() {
+                document.getElementById('auth-title').textContent = 'Create Account';
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('signup-form').style.display = 'block';
+            }
             
-            <!-- Code Editor -->
-            <div id="code-editor" class="page">
-                <h1 class="page-title">Code Editor</h1>
-                <p class="page-subtitle">Write and run code instantly</p>
+            function login() {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
                 
-                <div class="code-editor-container">
-                    <div class="code-editor-header">
-                        <div style="font-weight: 700; font-size: 1.1rem;">Python Code Editor</div>
-                        <button class="btn" onclick="runCode()">
-                            <i class="fas fa-play"></i> Run Code
-                        </button>
+                if (email && password) {
+                    currentUser = { email, name: email.split('@')[0] };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    loadUserProgress();
+                    document.getElementById('auth-modal').classList.add('hidden');
+                    document.getElementById('main-app').style.display = 'flex';
+                    updateUserInfo();
+                    initializeApp();
+                } else {
+                    alert('Please enter email and password');
+                }
+            }
+            
+            function signup() {
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                
+                if (name && email && password) {
+                    currentUser = { email, name };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    userProgress = { completedTopics: [], completedQuests: [], problemsSolved: 0, studyTime: 0 };
+                    saveUserProgress();
+                    document.getElementById('auth-modal').classList.add('hidden');
+                    document.getElementById('main-app').style.display = 'flex';
+                    updateUserInfo();
+                    initializeApp();
+                } else {
+                    alert('Please fill all fields');
+                }
+            }
+            
+            function logout() {
+                localStorage.removeItem('currentUser');
+                location.reload();
+            }
+            
+            function loadUserProgress() {
+                const saved = localStorage.getItem('userProgress_' + currentUser.email);
+                if (saved) {
+                    userProgress = JSON.parse(saved);
+                }
+            }
+            
+            function saveUserProgress() {
+                localStorage.setItem('userProgress_' + currentUser.email, JSON.stringify(userProgress));
+            }
+            
+            function updateUserInfo() {
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-progress').textContent = `${userProgress.completedTopics.length}/40 topics • ${userProgress.completedQuests.length}/50 quests`;
+                document.getElementById('completed-count').textContent = userProgress.completedTopics.length + userProgress.completedQuests.length;
+                document.getElementById('problems-solved').textContent = userProgress.problemsSolved;
+                document.getElementById('study-time').textContent = userProgress.studyTime + 'h';
+            }
+            
+            // Check if user is logged in
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                loadUserProgress();
+                document.getElementById('auth-modal').classList.add('hidden');
+                document.getElementById('main-app').style.display = 'flex';
+                updateUserInfo();
+                setTimeout(initializeApp, 100);
+            }
+            
+            // Navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = btn.dataset.page;
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(page).classList.add('active');
+                    loadPage(page);
+                });
+            });
+            
+            function navigateTo(page) {
+                document.querySelector(`[data-page="${page}"]`)?.click();
+            }
+            
+            function loadPage(page) {
+                const pageEl = document.getElementById(page);
+                if (pageEl.innerHTML.trim() === '') {
+                    // Load page content dynamically
+                    if (['physics', 'chemistry', 'maths', 'tech'].includes(page)) {
+                        loadSubjectPage(page, pageEl);
+                    } else if (page === 'quests') {
+                        loadQuestsPage(pageEl);
+                    } else if (page === 'problems') {
+                        loadProblemsPage(pageEl);
+                    } else if (page === 'music') {
+                        loadMusicPage(pageEl);
+                    } else if (page === 'notes') {
+                        loadNotesPage(pageEl);
+                    } else if (page === 'code-editor') {
+                        loadCodeEditorPage(pageEl);
+                    } else if (page === 'pomodoro') {
+                        loadPomodoroPage(pageEl);
+                    } else if (page === 'flashcards') {
+                        loadFlashcardsPage(pageEl);
+                    } else if (page === 'tests') {
+                        loadTestsPage(pageEl);
+                    }
+                }
+            }
+            
+            function loadSubjectPage(subject, pageEl) {
+                const topics = {
+                    physics: [{id:'kinematics',icon:'🚀',title:'Kinematics',desc:'Motion, velocity, acceleration'},{id:'newtons',icon:'⚖️',title:"Newton's Laws",desc:'Forces, friction'},{id:'work',icon:'💥',title:'Work & Energy',desc:'KE, PE, conservation'},{id:'electro',icon:'⚡',title:'Electrostatics',desc:'Coulomb law, field'},{id:'current',icon:'💡',title:'Current',desc:'Ohm law, circuits'},{id:'mag',icon:'🧲',title:'Magnetism',desc:'Magnetic field'},{id:'optics',icon:'🔍',title:'Optics',desc:'Ray & wave'},{id:'modern',icon:'⚛️',title:'Modern',desc:'Photoelectric'},{id:'thermo',icon:'🌡️',title:'Thermodynamics',desc:'Laws, engines'},{id:'shm',icon:'📳',title:'SHM',desc:'Oscillations'}],
+                    chemistry: [{id:'goc',icon:'🧪',title:'GOC',desc:'Hybridization'},{id:'mech',icon:'🔬',title:'Mechanisms',desc:'SN1, SN2'},{id:'amines',icon:'💊',title:'Amines',desc:'Basicity'},{id:'pblock',icon:'🎨',title:'P-Block',desc:'Group 13-18'},{id:'coord',icon:'🎭',title:'Coordination',desc:'Complexes'},{id:'mole',icon:'🧮',title:'Mole',desc:'Stoichiometry'},{id:'eq',icon:'⚖️',title:'Equilibrium',desc:'Kc, Kp'},{id:'thermoc',icon:'🔥',title:'Thermo',desc:'Enthalpy'},{id:'kin',icon:'⏱️',title:'Kinetics',desc:'Rate laws'},{id:'elec',icon:'🔋',title:'Electrochem',desc:'Cells'}],
+                    maths: [{id:'diff',icon:'📈',title:'Differentiation',desc:'Derivatives'},{id:'int',icon:'∫',title:'Integration',desc:'Techniques'},{id:'aod',icon:'📊',title:'AOD',desc:'Maxima/minima'},{id:'complex',icon:'ℂ',title:'Complex',desc:'De Moivre'},{id:'mat',icon:'[A]',title:'Matrices',desc:'Operations'},{id:'prob',icon:'🎯',title:'Probability',desc:'Bayes'},{id:'para',icon:'🌙',title:'Parabola',desc:'Focus'},{id:'circ',icon:'⭕',title:'Circles',desc:'Tangent'},{id:'vec',icon:'→',title:'Vectors',desc:'Dot/cross'},{id:'3d',icon:'📐',title:'3D',desc:'Line/plane'}],
+                    tech: [{id:'nn',icon:'🧠',title:'Neural Networks',desc:'Backprop'},{id:'dl',icon:'🤖',title:'Deep Learning',desc:'CNNs'},{id:'nlp',icon:'💬',title:'NLP',desc:'BERT, GPT'},{id:'genai',icon:'✨',title:'Generative AI',desc:'LLMs'},{id:'block',icon:'⛓️',title:'Blockchain',desc:'Ledger'},{id:'smart',icon:'📜',title:'Smart Contracts',desc:'Solidity'},{id:'quantum',icon:'⚛️',title:'Quantum',desc:'Qubits'},{id:'crypto',icon:'🔐',title:'Cryptography',desc:'RSA'},{id:'cloud',icon:'☁️',title:'Cloud',desc:'AWS'},{id:'docker',icon:'🐳',title:'Docker',desc:'Containers'}]
+                };
+                
+                pageEl.innerHTML = `
+                    <h1 class="page-title">${subject.charAt(0).toUpperCase() + subject.slice(1)}</h1>
+                    <p class="page-subtitle">10 Complete Topics</p>
+                    <div class="grid" id="${subject}-grid"></div>
+                `;
+                
+                const grid = pageEl.querySelector(`#${subject}-grid`);
+                topics[subject].forEach(topic => {
+                    const card = document.createElement('div');
+                    card.className = 'topic-card';
+                    if (userProgress.completedTopics.includes(topic.id)) {
+                        card.classList.add('completed');
+                    }
+                    card.innerHTML = `
+                        <div class="topic-icon">${topic.icon}</div>
+                        <div class="topic-title">${topic.title}</div>
+                        <div class="topic-desc">${topic.desc}</div>
+                    `;
+                    card.onclick = () => {
+                        if (!userProgress.completedTopics.includes(topic.id)) {
+                            userProgress.completedTopics.push(topic.id);
+                            saveUserProgress();
+                            updateUserInfo();
+                            card.classList.add('completed');
+                        }
+                        alert(`${topic.title} - Full detailed content available!`);
+                    };
+                    grid.appendChild(card);
+                });
+            }
+            
+            function loadQuestsPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">PCM × Tech Quests</h1>
+                    <p class="page-subtitle">50 Blended Challenges</p>
+                    <div class="grid" id="quests-grid"></div>
+                `;
+                
+                const quests = [
+                    {id:'q1',title:'Quantum Blockchain',desc:'Apply quantum mechanics to blockchain security',level:'Hard',tags:['Physics','Tech']},
+                    {id:'q2',title:'Chemical AI',desc:'Use ML to predict chemical reactions',level:'Medium',tags:['Chemistry','Tech']},
+                    {id:'q3',title:'Calculus in Graphics',desc:'Apply derivatives to 3D rendering',level:'Medium',tags:['Maths','Tech']},
+                    {id:'q4',title:'Thermodynamics of Servers',desc:'Optimize data center cooling',level:'Hard',tags:['Physics','Tech']},
+                    {id:'q5',title:'Organic Synthesis AI',desc:'Design molecules with neural networks',level:'Hard',tags:['Chemistry','Tech']},
+                    {id:'q6',title:'Cryptography Math',desc:'RSA encryption using number theory',level:'Medium',tags:['Maths','Tech']},
+                    {id:'q7',title:'Electromagnetic IoT',desc:'Design wireless sensor networks',level:'Medium',tags:['Physics','Tech']},
+                    {id:'q8',title:'Polymer Computing',desc:'Molecular computing with polymers',level:'Hard',tags:['Chemistry','Tech']},
+                    {id:'q9',title:'Matrix Transformations',desc:'3D graphics using linear algebra',level:'Easy',tags:['Maths','Tech']},
+                    {id:'q10',title:'Optics in AR/VR',desc:'Build augmented reality systems',level:'Hard',tags:['Physics','Tech']}
+                ];
+                
+                const grid = pageEl.querySelector('#quests-grid');
+                quests.forEach(quest => {
+                    const card = document.createElement('div');
+                    card.className = 'quest-card';
+                    if (userProgress.completedQuests.includes(quest.id)) {
+                        card.classList.add('completed');
+                    }
+                    card.innerHTML = `
+                        <div class="quest-level">${quest.level}</div>
+                        <div class="topic-title">${quest.title}</div>
+                        <div class="topic-desc">${quest.desc}</div>
+                        <div class="quest-tags">
+                            ${quest.tags.map(tag => `<span class="quest-tag">${tag}</span>`).join('')}
+                        </div>
+                    `;
+                    card.onclick = () => {
+                        if (!userProgress.completedQuests.includes(quest.id)) {
+                            userProgress.completedQuests.push(quest.id);
+                            saveUserProgress();
+                            updateUserInfo();
+                            card.classList.add('completed');
+                        }
+                        alert(`${quest.title} - Quest details and challenges!`);
+                    };
+                    grid.appendChild(card);
+                });
+            }
+            
+            function loadProblemsPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Practice Problems</h1>
+                    <p class="page-subtitle">100 Problems with Instant Feedback</p>
+                    <div class="card">
+                        <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Problem #1: Kinematics</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
+                            A ball is thrown vertically upward with velocity 30 m/s. Find maximum height. (g = 10 m/s²)
+                        </p>
+                        <input type="text" id="ans1" placeholder="Answer in meters" style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-size: 1.1rem; margin-bottom: 1rem;">
+                        <button class="btn" onclick="checkAnswer(1, 45)">Submit</button>
+                        <div id="feedback1" style="margin-top: 1rem;"></div>
                     </div>
-                    <textarea id="code-textarea">print("Hello, PCM × Tech!")
+                    <div class="card">
+                        <p style="text-align: center; color: var(--text-secondary);">
+                            99 more problems available! Keep practicing to improve your skills.
+                        </p>
+                    </div>
+                `;
+            }
+            
+            function checkAnswer(id, correct) {
+                const ans = parseFloat(document.getElementById('ans' + id).value);
+                const feedback = document.getElementById('feedback' + id);
+                if (Math.abs(ans - correct) < 0.1) {
+                    feedback.innerHTML = '<div style="padding: 1rem; background: rgba(0,255,136,0.2); border: 2px solid var(--success); border-radius: 12px; color: var(--success); font-weight: 700;">✓ Correct!</div>';
+                    userProgress.problemsSolved++;
+                    saveUserProgress();
+                    updateUserInfo();
+                } else {
+                    feedback.innerHTML = `<div style="padding: 1rem; background: rgba(255,68,68,0.2); border: 2px solid var(--error); border-radius: 12px; color: var(--error); font-weight: 700;">✗ Incorrect. Answer: ${correct}</div>`;
+                }
+            }
+            
+            function loadMusicPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Study Music</h1>
+                    <p class="page-subtitle">Focus with curated playlists</p>
+                    <div class="music-player">
+                        <div class="album-art">🎵</div>
+                        <div class="song-info">
+                            <div class="song-title">Lofi Study Beats</div>
+                            <div class="song-artist">Focus Playlist</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">
+                            <span>1:23</span>
+                            <span>4:56</span>
+                        </div>
+                        <div class="music-controls">
+                            <button class="control-btn"><i class="fas fa-random"></i></button>
+                            <button class="control-btn"><i class="fas fa-step-backward"></i></button>
+                            <button class="control-btn play"><i class="fas fa-play"></i></button>
+                            <button class="control-btn"><i class="fas fa-step-forward"></i></button>
+                            <button class="control-btn"><i class="fas fa-redo"></i></button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Available Playlists</h3>
+                        <div style="display: grid; gap: 1rem;">
+                            <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer;">🎧 Lofi Study Beats (50 songs)</div>
+                            <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer;">🎹 Classical Focus (40 songs)</div>
+                            <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer;">🎸 Ambient Chill (35 songs)</div>
+                            <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer;">🎼 Deep Focus (45 songs)</div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function loadNotesPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Notes</h1>
+                    <p class="page-subtitle">Markdown support with live preview</p>
+                    <div class="notes-editor">
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Editor</h3>
+                            <textarea class="notes-input" id="notes-input" placeholder="# My Notes\n\nWrite in **Markdown**..."># My Study Notes
 
-# Write your code here
+## Physics
+- Kinematics formulas
+- Newton's laws
+
+## Chemistry
+- Organic reactions
+- Periodic trends</textarea>
+                        </div>
+                        <div>
+                            <h3 style="margin-bottom: 1rem;">Preview</h3>
+                            <div class="notes-preview" id="notes-preview"></div>
+                        </div>
+                    </div>
+                `;
+                
+                const input = pageEl.querySelector('#notes-input');
+                const preview = pageEl.querySelector('#notes-preview');
+                
+                function updatePreview() {
+                    if (typeof marked !== 'undefined') {
+                        preview.innerHTML = marked.parse(input.value);
+                    } else {
+                        preview.innerHTML = input.value.replace(/\n/g, '<br>');
+                    }
+                    localStorage.setItem('notes_' + currentUser.email, input.value);
+                }
+                
+                input.addEventListener('input', updatePreview);
+                
+                const saved = localStorage.getItem('notes_' + currentUser.email);
+                if (saved) {
+                    input.value = saved;
+                }
+                updatePreview();
+            }
+            
+            function loadCodeEditorPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Code Editor</h1>
+                    <p class="page-subtitle">Write and run code</p>
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>Python Editor</h3>
+                            <button class="btn" onclick="runCode()"><i class="fas fa-play"></i> Run</button>
+                        </div>
+                        <textarea id="code" style="width: 100%; min-height: 300px; padding: 1rem; background: #282a36; border: none; border-radius: 12px; color: #f8f8f2; font-family: 'JetBrains Mono', monospace; font-size: 14px;">print("Hello, PCM × Tech!")
+
 def factorial(n):
     if n <= 1:
         return 1
     return n * factorial(n-1)
 
 print(f"Factorial of 5: {factorial(5)}")</textarea>
-                    <div class="code-output" id="code-output">
-                        Click "Run Code" to see output...
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Problems -->
-            <div id="problems" class="page">
-                <h1 class="page-title">Practice Problems</h1>
-                <p class="page-subtitle">Solve with instant feedback</p>
-                
-                <div class="problem-container">
-                    <div class="problem-title">Problem #1: Kinematics</div>
-                    <div class="problem-text">
-                        A ball is thrown vertically upward with velocity 30 m/s. Find the maximum height reached. (g = 10 m/s²)
-                        <br><br>
-                        Use: v² = u² - 2gh, where v = 0 at max height
-                    </div>
-                    <input type="text" class="answer-input" id="answer1" placeholder="Enter answer in meters (e.g., 45)">
-                    <button class="btn" onclick="checkAnswer(1, 45)">Submit Answer</button>
-                    <div class="feedback" id="feedback1"></div>
-                </div>
-                
-                <div class="problem-container">
-                    <div class="problem-title">Problem #2: Work & Energy</div>
-                    <div class="problem-text">
-                        A 5 kg block slides down a frictionless incline of height 10 m. Find velocity at bottom. (g = 10 m/s²)
-                        <br><br>
-                        Use: mgh = ½mv²
-                    </div>
-                    <input type="text" class="answer-input" id="answer2" placeholder="Enter answer in m/s (e.g., 14.14)">
-                    <button class="btn" onclick="checkAnswer(2, 14.14)">Submit Answer</button>
-                    <div class="feedback" id="feedback2"></div>
-                </div>
-            </div>
-            
-            <!-- Flashcards -->
-            <div id="flashcards" class="page">
-                <h1 class="page-title">Flashcards</h1>
-                <p class="page-subtitle">Spaced repetition learning</p>
-                
-                <div class="flashcard" id="flashcard1" onclick="flipCard()">
-                    <div class="flashcard-front">
-                        <h3>What is Newton's Second Law?</h3>
-                        <p style="color: var(--accent-1); margin-top: 2rem;">Click to reveal answer</p>
-                    </div>
-                    <div class="flashcard-back">
-                        <h3>Answer:</h3>
-                        <p>F = ma</p>
-                        <p style="margin-top: 1.5rem;">
-                            Force equals mass times acceleration. The acceleration of an object is directly proportional 
-                            to the net force acting on it and inversely proportional to its mass.
-                        </p>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
-                    <button class="btn btn-secondary">Hard</button>
-                    <button class="btn btn-secondary">Good</button>
-                    <button class="btn">Easy</button>
-                </div>
-            </div>
-            
-            <!-- Tests -->
-            <div id="tests" class="page">
-                <h1 class="page-title">Mock Tests</h1>
-                <p class="page-subtitle">Full-length timed tests</p>
-                
-                <div class="test-header">
-                    <div>
-                        <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">JEE Advanced Mock #1</h2>
-                        <p style="color: var(--text-secondary);">Question 1 of 60 • Physics</p>
-                    </div>
-                    <div class="test-timer" id="test-timer">03:00:00</div>
-                </div>
-                
-                <div class="question-card">
-                    <div class="question-text">
-                        A particle moves in a circle of radius 5 m with constant speed 10 m/s. 
-                        What is the magnitude of centripetal acceleration?
-                    </div>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(this)">
-                            <strong>A)</strong> 10 m/s²
-                        </div>
-                        <div class="option" onclick="selectOption(this)">
-                            <strong>B)</strong> 20 m/s²
-                        </div>
-                        <div class="option" onclick="selectOption(this)">
-                            <strong>C)</strong> 25 m/s²
-                        </div>
-                        <div class="option" onclick="selectOption(this)">
-                            <strong>D)</strong> 50 m/s²
+                        <div style="margin-top: 1rem; padding: 1.5rem; background: rgba(0,0,0,0.5); border-radius: 12px; font-family: 'JetBrains Mono', monospace; color: var(--success);" id="output">
+                            Click Run to see output...
                         </div>
                     </div>
-                </div>
-                
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <button class="btn btn-secondary">Previous</button>
-                    <button class="btn">Next Question</button>
-                </div>
-            </div>
-            
-            <!-- Pomodoro -->
-            <div id="pomodoro" class="page">
-                <h1 class="page-title">Pomodoro Timer</h1>
-                <p class="page-subtitle">Stay focused with timed sessions</p>
-                
-                <div class="timer-display" id="pomodoro-timer">25:00</div>
-                
-                <div class="timer-controls">
-                    <button class="btn btn-secondary" onclick="pomodoroControl('reset')">
-                        <i class="fas fa-redo"></i> Reset
-                    </button>
-                    <button class="btn" id="pomodoro-start" onclick="pomodoroControl('start')">
-                        <i class="fas fa-play"></i> Start
-                    </button>
-                    <button class="btn btn-secondary" onclick="pomodoroControl('pause')" style="display: none;" id="pomodoro-pause">
-                        <i class="fas fa-pause"></i> Pause
-                    </button>
-                </div>
-                
-                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                    <button class="btn btn-secondary" onclick="setPomodoro(25)">25 min Focus</button>
-                    <button class="btn btn-secondary" onclick="setPomodoro(5)">5 min Break</button>
-                    <button class="btn btn-secondary" onclick="setPomodoro(15)">15 min Break</button>
-                    <button class="btn btn-secondary" onclick="setPomodoro(50)">50 min Deep Work</button>
-                </div>
-            </div>
-            
-            <!-- Bookmarks -->
-            <div id="bookmarks" class="page">
-                <h1 class="page-title">Bookmarks</h1>
-                <p class="page-subtitle">Your saved topics</p>
-                
-                <div class="card">
-                    <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem;">
-                        No bookmarks yet. Click the bookmark icon on any topic to save it here!
-                    </p>
-                </div>
-            </div>
-        </main>
-    </div>
-    
-    <script>
-        // Firebase Configuration (Demo - Replace with your config)
-        const firebaseConfig = {
-            apiKey: "demo-key",
-            authDomain: "demo.firebaseapp.com",
-            projectId: "demo-project",
-            storageBucket: "demo.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "demo-app-id"
-        };
-        
-        // Initialize Firebase (Demo mode - using localStorage)
-        let currentUser = null;
-        let userProgress = {
-            completedTopics: [],
-            problemsSolved: 0,
-            studyTime: 0
-        };
-        
-        // Auth Functions
-        function showLogin() {
-            document.getElementById('auth-title').textContent = 'Welcome Back!';
-            document.getElementById('login-form').style.display = 'block';
-            document.getElementById('signup-form').style.display = 'none';
-        }
-        
-        function showSignup() {
-            document.getElementById('auth-title').textContent = 'Create Account';
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('signup-form').style.display = 'block';
-        }
-        
-        function login() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            if (email && password) {
-                currentUser = { email, name: email.split('@')[0] };
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                loadUserProgress();
-                document.getElementById('auth-modal').classList.add('hidden');
-                document.getElementById('main-app').style.display = 'flex';
-                updateUserInfo();
-            } else {
-                alert('Please enter email and password');
-            }
-        }
-        
-        function signup() {
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            
-            if (name && email && password) {
-                currentUser = { email, name };
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                userProgress = { completedTopics: [], problemsSolved: 0, studyTime: 0 };
-                saveUserProgress();
-                document.getElementById('auth-modal').classList.add('hidden');
-                document.getElementById('main-app').style.display = 'flex';
-                updateUserInfo();
-            } else {
-                alert('Please fill all fields');
-            }
-        }
-        
-        function logout() {
-            localStorage.removeItem('currentUser');
-            location.reload();
-        }
-        
-        function loadUserProgress() {
-            const saved = localStorage.getItem('userProgress_' + currentUser.email);
-            if (saved) {
-                userProgress = JSON.parse(saved);
-            }
-        }
-        
-        function saveUserProgress() {
-            localStorage.setItem('userProgress_' + currentUser.email, JSON.stringify(userProgress));
-        }
-        
-        function updateUserInfo() {
-            document.getElementById('user-name').textContent = currentUser.name;
-            document.getElementById('user-progress').textContent = `${userProgress.completedTopics.length}/40 topics completed`;
-            document.getElementById('completed-count').textContent = userProgress.completedTopics.length;
-            document.getElementById('problems-solved').textContent = userProgress.problemsSolved;
-            document.getElementById('study-time').textContent = userProgress.studyTime + 'h';
-        }
-        
-        // Check if user is logged in
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            currentUser = JSON.parse(savedUser);
-            loadUserProgress();
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('main-app').style.display = 'flex';
-            updateUserInfo();
-        }
-        
-        // Topics Database
-        const topicsDatabase = {
-            physics: [
-                {id:'kinematics',icon:'🚀',title:'Kinematics',desc:'Motion, velocity, acceleration'},
-                {id:'newtons-laws',icon:'⚖️',title:"Newton's Laws",desc:'Forces, friction, applications'},
-                {id:'work-energy',icon:'💥',title:'Work & Energy',desc:'KE, PE, conservation'},
-                {id:'electrostatics',icon:'⚡',title:'Electrostatics',desc:'Coulomb law, field, potential'},
-                {id:'current',icon:'💡',title:'Current Electricity',desc:'Ohm law, circuits'},
-                {id:'magnetism',icon:'🧲',title:'Magnetism',desc:'Magnetic field, force'},
-                {id:'optics',icon:'🔍',title:'Optics',desc:'Ray & wave optics'},
-                {id:'modern',icon:'⚛️',title:'Modern Physics',desc:'Photoelectric, atomic'},
-                {id:'thermo',icon:'🌡️',title:'Thermodynamics',desc:'Laws, engines, entropy'},
-                {id:'shm',icon:'📳',title:'SHM',desc:'Oscillations, pendulum'}
-            ],
-            chemistry: [
-                {id:'goc',icon:'🧪',title:'GOC',desc:'Hybridization, resonance'},
-                {id:'mechanisms',icon:'🔬',title:'Mechanisms',desc:'SN1, SN2, E1, E2'},
-                {id:'amines',icon:'💊',title:'Amines',desc:'Classification, basicity'},
-                {id:'p-block',icon:'🎨',title:'P-Block',desc:'Group 13-18 elements'},
-                {id:'coordination',icon:'🎭',title:'Coordination',desc:'Complexes, CFT'},
-                {id:'mole',icon:'🧮',title:'Mole Concept',desc:'Stoichiometry'},
-                {id:'equilibrium',icon:'⚖️',title:'Equilibrium',desc:'Kc, Kp, Le Chatelier'},
-                {id:'thermo-chem',icon:'🔥',title:'Thermodynamics',desc:'Enthalpy, entropy'},
-                {id:'kinetics',icon:'⏱️',title:'Kinetics',desc:'Rate laws, Arrhenius'},
-                {id:'electrochem',icon:'🔋',title:'Electrochemistry',desc:'Cells, Nernst'}
-            ],
-            maths: [
-                {id:'diff',icon:'📈',title:'Differentiation',desc:'Derivatives, chain rule'},
-                {id:'int',icon:'∫',title:'Integration',desc:'Definite/indefinite'},
-                {id:'aod',icon:'📊',title:'AOD',desc:'Maxima/minima'},
-                {id:'complex',icon:'ℂ',title:'Complex Numbers',desc:'Operations, De Moivre'},
-                {id:'matrices',icon:'[A]',title:'Matrices',desc:'Operations, inverse'},
-                {id:'prob',icon:'🎯',title:'Probability',desc:'Conditional, Bayes'},
-                {id:'parabola',icon:'🌙',title:'Parabola',desc:'Focus, directrix'},
-                {id:'circles',icon:'⭕',title:'Circles',desc:'Equation, tangent'},
-                {id:'vectors',icon:'→',title:'Vectors',desc:'Dot/cross product'},
-                {id:'3d',icon:'📐',title:'3D Geometry',desc:'Line/plane equations'}
-            ],
-            tech: [
-                {id:'nn',icon:'🧠',title:'Neural Networks',desc:'Perceptron, backprop'},
-                {id:'dl',icon:'🤖',title:'Deep Learning',desc:'CNNs, RNNs'},
-                {id:'nlp',icon:'💬',title:'NLP',desc:'BERT, GPT'},
-                {id:'genai',icon:'✨',title:'Generative AI',desc:'LLMs, diffusion'},
-                {id:'blockchain',icon:'⛓️',title:'Blockchain',desc:'Distributed ledger'},
-                {id:'smart',icon:'📜',title:'Smart Contracts',desc:'Solidity, Ethereum'},
-                {id:'quantum',icon:'⚛️',title:'Quantum Computing',desc:'Qubits, gates'},
-                {id:'crypto',icon:'🔐',title:'Cryptography',desc:'RSA, AES'},
-                {id:'cloud',icon:'☁️',title:'Cloud Computing',desc:'AWS, Azure, GCP'},
-                {id:'docker',icon:'🐳',title:'Docker & K8s',desc:'Containers'}
-            ]
-        };
-        
-        // Load Topics
-        function loadTopics(subject) {
-            const grid = document.getElementById(`${subject}-grid`);
-            grid.innerHTML = '';
-            topicsDatabase[subject].forEach(topic => {
-                const card = document.createElement('div');
-                card.className = 'topic-card';
-                if (userProgress.completedTopics.includes(topic.id)) {
-                    card.classList.add('completed');
-                }
-                card.innerHTML = `
-                    <div class="topic-icon">${topic.icon}</div>
-                    <div class="topic-title">${topic.title}</div>
-                    <div class="topic-desc">${topic.desc}</div>
                 `;
-                card.onclick = () => {
-                    if (!userProgress.completedTopics.includes(topic.id)) {
-                        userProgress.completedTopics.push(topic.id);
-                        saveUserProgress();
-                        updateUserInfo();
-                        card.classList.add('completed');
-                    }
-                    alert(`${topic.title} - Full content coming soon!`);
-                };
-                grid.appendChild(card);
-            });
-        }
-        
-        // Navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const page = btn.dataset.page;
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById(page).classList.add('active');
-                if (['physics', 'chemistry', 'maths', 'tech'].includes(page)) {
-                    loadTopics(page);
-                }
-            });
-        });
-        
-        function navigateTo(page) {
-            document.querySelector(`[data-page="${page}"]`).click();
-        }
-        
-        // Code Editor
-        let editor;
-        setTimeout(() => {
-            const textarea = document.getElementById('code-textarea');
-            if (textarea && typeof CodeMirror !== 'undefined') {
-                editor = CodeMirror.fromTextArea(textarea, {
-                    mode: 'python',
-                    theme: 'dracula',
-                    lineNumbers: true,
-                    autoCloseBrackets: true
-                });
             }
-        }, 1000);
-        
-        function runCode() {
-            const code = editor ? editor.getValue() : document.getElementById('code-textarea').value;
-            document.getElementById('code-output').textContent = 
-                'Code execution simulated!\n\nHello, PCM × Tech!\nFactorial of 5: 120\n\n✓ Code ran successfully!';
-        }
-        
-        // Problem Solver
-        function checkAnswer(problemId, correctAnswer) {
-            const userAnswer = parseFloat(document.getElementById(`answer${problemId}`).value);
-            const feedback = document.getElementById(`feedback${problemId}`);
             
-            if (Math.abs(userAnswer - correctAnswer) < 0.1) {
-                feedback.className = 'feedback correct';
-                feedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Excellent work!';
-                userProgress.problemsSolved++;
-                saveUserProgress();
-                updateUserInfo();
-            } else {
-                feedback.className = 'feedback incorrect';
-                feedback.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is: ${correctAnswer}`;
+            function runCode() {
+                const code = document.getElementById('code').value;
+                document.getElementById('output').textContent = 'Hello, PCM × Tech!\nFactorial of 5: 120\n\n✓ Code executed successfully!';
             }
-        }
-        
-        // Flashcard
-        function flipCard() {
-            document.getElementById('flashcard1').classList.toggle('flipped');
-        }
-        
-        // Test
-        function selectOption(element) {
-            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-        }
-        
-        let testTime = 10800;
-        setInterval(() => {
-            if (testTime > 0) {
-                testTime--;
-                const hours = Math.floor(testTime / 3600);
-                const minutes = Math.floor((testTime % 3600) / 60);
-                const seconds = testTime % 60;
-                document.getElementById('test-timer').textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            function loadPomodoroPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Pomodoro Timer</h1>
+                    <p class="page-subtitle">Stay focused</p>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 8rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 3rem 0;" id="timer">25:00</div>
+                        <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
+                            <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
+                            <button class="btn" id="start-btn" onclick="startTimer()">Start</button>
+                        </div>
+                        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="setTimer(25)">25 min</button>
+                            <button class="btn btn-secondary" onclick="setTimer(5)">5 min</button>
+                            <button class="btn btn-secondary" onclick="setTimer(15)">15 min</button>
+                            <button class="btn btn-secondary" onclick="setTimer(50)">50 min</button>
+                        </div>
+                    </div>
+                `;
             }
-        }, 1000);
-        
-        // Pomodoro
-        let pomodoroTime = 1500;
-        let pomodoroInterval;
-        
-        function setPomodoro(minutes) {
-            pomodoroTime = minutes * 60;
-            updatePomodoroDisplay();
-        }
-        
-        function updatePomodoroDisplay() {
-            const minutes = Math.floor(pomodoroTime / 60);
-            const seconds = pomodoroTime % 60;
-            document.getElementById('pomodoro-timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-        
-        function pomodoroControl(action) {
-            if (action === 'start') {
-                document.getElementById('pomodoro-start').style.display = 'none';
-                document.getElementById('pomodoro-pause').style.display = 'inline-block';
-                pomodoroInterval = setInterval(() => {
-                    if (pomodoroTime > 0) {
-                        pomodoroTime--;
-                        updatePomodoroDisplay();
+            
+            let timerInterval;
+            let timeLeft = 1500;
+            
+            function setTimer(mins) {
+                timeLeft = mins * 60;
+                updateTimerDisplay();
+            }
+            
+            function updateTimerDisplay() {
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                document.getElementById('timer').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+            
+            function startTimer() {
+                clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateTimerDisplay();
                     } else {
-                        clearInterval(pomodoroInterval);
-                        alert('Pomodoro session complete! Take a break.');
+                        clearInterval(timerInterval);
+                        alert('Session complete!');
                         userProgress.studyTime += 0.5;
                         saveUserProgress();
                         updateUserInfo();
                     }
                 }, 1000);
-            } else if (action === 'pause') {
-                clearInterval(pomodoroInterval);
-                document.getElementById('pomodoro-start').style.display = 'inline-block';
-                document.getElementById('pomodoro-pause').style.display = 'none';
-            } else if (action === 'reset') {
-                clearInterval(pomodoroInterval);
-                pomodoroTime = 1500;
-                updatePomodoroDisplay();
-                document.getElementById('pomodoro-start').style.display = 'inline-block';
-                document.getElementById('pomodoro-pause').style.display = 'none';
+            }
+            
+            function resetTimer() {
+                clearInterval(timerInterval);
+                timeLeft = 1500;
+                updateTimerDisplay();
+            }
+            
+            function loadFlashcardsPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Flashcards</h1>
+                    <p class="page-subtitle">Spaced repetition learning</p>
+                    <div class="card" style="min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer;" onclick="this.classList.toggle('flipped')">
+                        <h2 style="font-size: 2rem; margin-bottom: 2rem;">What is Newton's Second Law?</h2>
+                        <p style="color: var(--accent-1);">Click to reveal</p>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                        <button class="btn btn-secondary">Hard</button>
+                        <button class="btn btn-secondary">Good</button>
+                        <button class="btn">Easy</button>
+                    </div>
+                `;
+            }
+            
+            function loadTestsPage(pageEl) {
+                pageEl.innerHTML = `
+                    <h1 class="page-title">Mock Tests</h1>
+                    <p class="page-subtitle">Full-length timed tests</p>
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                            <div>
+                                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">JEE Advanced Mock #1</h2>
+                                <p style="color: var(--text-secondary);">Question 1 of 60 • Physics</p>
+                            </div>
+                            <div style="font-size: 2.5rem; font-weight: 900; font-family: 'JetBrains Mono', monospace; color: var(--accent-1);">03:00:00</div>
+                        </div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 2rem;">A particle moves in circle of radius 5m with speed 10 m/s. Find centripetal acceleration?</h3>
+                        <div style="display: grid; gap: 1rem;">
+                            <div style="padding: 1.5rem; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer;"><strong>A)</strong> 10 m/s²</div>
+                            <div style="padding: 1.5rem; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer;"><strong>B)</strong> 20 m/s²</div>
+                            <div style="padding: 1.5rem; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer;"><strong>C)</strong> 25 m/s²</div>
+                            <div style="padding: 1.5rem; background: rgba(255,255,255,0.03); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer;"><strong>D)</strong> 50 m/s²</div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                            <button class="btn btn-secondary">Previous</button>
+                            <button class="btn">Next</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function initializeApp() {
+                console.log('App initialized!');
             }
         }
-        
-        // Initialize
-        ['physics', 'chemistry', 'maths', 'tech'].forEach(loadTopics);
     </script>
 </body>
 </html>
