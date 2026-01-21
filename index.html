@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCM × Tech Perfectionist - Complete Content Platform</title>
+    <title>PCM × Tech Perfectionist - Complete Platform with Full Content</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    
+    <!-- Load External Content Database -->
+    <script src="https://aurenya-19.github.io/pcm-tech-content-db/content.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -382,6 +380,13 @@
             border-color: var(--accent-1);
         }
         
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: var(--accent-1);
+        }
+        
         @media (max-width: 1024px) {
             .sidebar { width: 100%; height: auto; position: relative; }
             .main-content { margin-left: 0; width: 100%; padding: 1.5rem; }
@@ -488,16 +493,16 @@
                         <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Completed</div>
                     </div>
                     <div class="card" style="text-align: center; padding: 2rem;">
-                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">80k+</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Words</div>
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Full</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.9rem;">Content</div>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">📚 Complete Content Available</h2>
+                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">📚 All Topics with Complete Content</h2>
                     <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
                         All <strong>40 topics</strong> now include complete detailed explanations with formulas, examples, solved problems, 
-                        and practice questions. Over <strong>80,000 words</strong> of high-quality educational content!
+                        and practice questions. Content loaded dynamically from external database for optimal performance!
                     </p>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <button class="btn" onclick="navigateTo('physics')">Start Physics</button>
@@ -518,519 +523,6 @@
     </div>
     
     <script>
-        // Complete Content Database - All 40 Topics with Full Details
-        const COMPLETE_CONTENT = {
-            physics: {
-                kinematics: {
-                    id: 'kinematics',
-                    icon: '🚀',
-                    title: 'Kinematics',
-                    desc: 'Motion in 1D, 2D, 3D - velocity, acceleration, projectile motion',
-                    content: `
-                        <h1>Kinematics - The Study of Motion</h1>
-                        
-                        <h2>1. Introduction</h2>
-                        <p>Kinematics is the branch of classical mechanics that describes the motion of points, objects, and systems of bodies without considering the forces that cause them to move. It focuses on the geometry of motion using position, velocity, acceleration, and time.</p>
-                        
-                        <h2>2. Fundamental Concepts</h2>
-                        
-                        <h3>2.1 Position and Displacement</h3>
-                        <p><strong>Position:</strong> The location of an object in space relative to a chosen reference point (origin). It is a vector quantity.</p>
-                        <p><strong>Displacement:</strong> The change in position of an object. It is the shortest distance from the initial to the final position and is a vector quantity.</p>
-                        <div class="formula-box">
-                            Displacement: Δx = x₂ - x₁<br>
-                            Where x₁ = initial position, x₂ = final position
-                        </div>
-                        
-                        <h3>2.2 Distance vs Displacement</h3>
-                        <ul>
-                            <li><strong>Distance:</strong> Total path length traveled (scalar)</li>
-                            <li><strong>Displacement:</strong> Shortest path between initial and final positions (vector)</li>
-                            <li>Distance ≥ |Displacement|</li>
-                        </ul>
-                        
-                        <h3>2.3 Velocity</h3>
-                        <p><strong>Average Velocity:</strong> The displacement per unit time</p>
-                        <div class="formula-box">
-                            v_avg = Δx / Δt = (x₂ - x₁) / (t₂ - t₁)
-                        </div>
-                        
-                        <p><strong>Instantaneous Velocity:</strong> The velocity at a specific instant of time</p>
-                        <div class="formula-box">
-                            v = lim(Δt→0) Δx/Δt = dx/dt
-                        </div>
-                        
-                        <p><strong>Speed vs Velocity:</strong></p>
-                        <ul>
-                            <li>Speed = Distance/Time (scalar)</li>
-                            <li>Velocity = Displacement/Time (vector)</li>
-                        </ul>
-                        
-                        <h3>2.4 Acceleration</h3>
-                        <p><strong>Average Acceleration:</strong> The change in velocity per unit time</p>
-                        <div class="formula-box">
-                            a_avg = Δv / Δt = (v₂ - v₁) / (t₂ - t₁)
-                        </div>
-                        
-                        <p><strong>Instantaneous Acceleration:</strong></p>
-                        <div class="formula-box">
-                            a = dv/dt = d²x/dt²
-                        </div>
-                        
-                        <h2>3. Equations of Motion (Constant Acceleration)</h2>
-                        <p>When acceleration is constant, we can derive three fundamental equations:</p>
-                        
-                        <div class="formula-box">
-                            <strong>First Equation:</strong> v = u + at<br><br>
-                            <strong>Second Equation:</strong> s = ut + ½at²<br><br>
-                            <strong>Third Equation:</strong> v² = u² + 2as<br><br>
-                            <strong>Fourth Equation:</strong> s = (u + v)t / 2
-                        </div>
-                        
-                        <p><strong>Where:</strong></p>
-                        <ul>
-                            <li>u = initial velocity</li>
-                            <li>v = final velocity</li>
-                            <li>a = acceleration</li>
-                            <li>t = time</li>
-                            <li>s = displacement</li>
-                        </ul>
-                        
-                        <div class="example-box">
-                            <h4>Example 1: Linear Motion</h4>
-                            <p><strong>Question:</strong> A car accelerates from rest at 2 m/s² for 10 seconds. Find (a) final velocity, (b) distance covered.</p>
-                            <p><strong>Solution:</strong></p>
-                            <p>Given: u = 0 m/s, a = 2 m/s², t = 10 s</p>
-                            <p>(a) Using v = u + at</p>
-                            <p>v = 0 + 2(10) = 20 m/s</p>
-                            <p>(b) Using s = ut + ½at²</p>
-                            <p>s = 0(10) + ½(2)(10)² = 100 m</p>
-                        </div>
-                        
-                        <h2>4. Motion in Two Dimensions - Projectile Motion</h2>
-                        <p>When an object is thrown near the Earth's surface, it follows a parabolic path under the influence of gravity.</p>
-                        
-                        <h3>4.1 Key Characteristics</h3>
-                        <ul>
-                            <li>Horizontal motion: uniform velocity (no acceleration)</li>
-                            <li>Vertical motion: uniformly accelerated (acceleration = -g)</li>
-                            <li>Path is parabolic</li>
-                            <li>At maximum height, vertical velocity = 0</li>
-                        </ul>
-                        
-                        <h3>4.2 Important Formulas</h3>
-                        <div class="formula-box">
-                            <strong>Horizontal Component:</strong><br>
-                            x = u cos(θ) × t<br>
-                            v_x = u cos(θ) (constant)<br><br>
-                            
-                            <strong>Vertical Component:</strong><br>
-                            y = u sin(θ) × t - ½gt²<br>
-                            v_y = u sin(θ) - gt<br><br>
-                            
-                            <strong>Time of Flight:</strong><br>
-                            T = 2u sin(θ) / g<br><br>
-                            
-                            <strong>Maximum Height:</strong><br>
-                            H = u² sin²(θ) / 2g<br><br>
-                            
-                            <strong>Range:</strong><br>
-                            R = u² sin(2θ) / g
-                        </div>
-                        
-                        <div class="note-box">
-                            <p><strong>Important Points:</strong></p>
-                            <ul>
-                                <li>Range is maximum when θ = 45°</li>
-                                <li>For same initial speed, same range for angles θ and (90° - θ)</li>
-                                <li>Time of ascent = Time of descent</li>
-                                <li>Velocity at same height during ascent and descent have same magnitude</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="example-box">
-                            <h4>Example 2: Projectile Motion</h4>
-                            <p><strong>Question:</strong> A ball is thrown with velocity 20 m/s at 30° to horizontal. Find maximum height and range. (g = 10 m/s²)</p>
-                            <p><strong>Solution:</strong></p>
-                            <p>Given: u = 20 m/s, θ = 30°, g = 10 m/s²</p>
-                            <p><strong>Maximum Height:</strong></p>
-                            <p>H = u² sin²(θ) / 2g</p>
-                            <p>H = (20)² × (sin 30°)² / (2 × 10)</p>
-                            <p>H = 400 × (0.5)² / 20 = 400 × 0.25 / 20 = 5 m</p>
-                            <p><strong>Range:</strong></p>
-                            <p>R = u² sin(2θ) / g</p>
-                            <p>R = (20)² × sin(60°) / 10</p>
-                            <p>R = 400 × 0.866 / 10 = 34.64 m</p>
-                        </div>
-                        
-                        <h2>5. Relative Motion</h2>
-                        <p>The motion of one object as observed from another moving object.</p>
-                        
-                        <div class="formula-box">
-                            <strong>Relative Velocity:</strong><br>
-                            v_AB = v_A - v_B<br><br>
-                            Where v_AB is velocity of A relative to B
-                        </div>
-                        
-                        <h3>5.1 Applications</h3>
-                        <ul>
-                            <li>River crossing problems</li>
-                            <li>Rain falling at an angle for a moving observer</li>
-                            <li>Relative motion of vehicles</li>
-                        </ul>
-                        
-                        <div class="example-box">
-                            <h4>Example 3: Relative Motion</h4>
-                            <p><strong>Question:</strong> Two trains are moving towards each other at 60 km/h and 40 km/h. Find their relative velocity.</p>
-                            <p><strong>Solution:</strong></p>
-                            <p>When moving towards each other, relative velocity = v₁ + v₂</p>
-                            <p>v_rel = 60 + 40 = 100 km/h</p>
-                        </div>
-                        
-                        <h2>6. Circular Motion</h2>
-                        <p>Motion of an object along a circular path.</p>
-                        
-                        <h3>6.1 Key Quantities</h3>
-                        <div class="formula-box">
-                            <strong>Angular Displacement:</strong> θ (radians)<br>
-                            <strong>Angular Velocity:</strong> ω = dθ/dt<br>
-                            <strong>Angular Acceleration:</strong> α = dω/dt<br><br>
-                            
-                            <strong>Relation with Linear Quantities:</strong><br>
-                            v = rω (linear velocity)<br>
-                            a_t = rα (tangential acceleration)<br>
-                            a_c = v²/r = rω² (centripetal acceleration)
-                        </div>
-                        
-                        <h3>6.2 Uniform Circular Motion</h3>
-                        <ul>
-                            <li>Speed is constant</li>
-                            <li>Velocity changes direction continuously</li>
-                            <li>Acceleration is always directed towards center (centripetal)</li>
-                            <li>No tangential acceleration</li>
-                        </ul>
-                        
-                        <h2>7. Graphs in Kinematics</h2>
-                        
-                        <h3>7.1 Position-Time Graph</h3>
-                        <ul>
-                            <li>Slope = velocity</li>
-                            <li>Horizontal line = object at rest</li>
-                            <li>Straight line = uniform velocity</li>
-                            <li>Curved line = non-uniform velocity</li>
-                        </ul>
-                        
-                        <h3>7.2 Velocity-Time Graph</h3>
-                        <ul>
-                            <li>Slope = acceleration</li>
-                            <li>Area under curve = displacement</li>
-                            <li>Horizontal line = uniform velocity</li>
-                            <li>Straight line = uniform acceleration</li>
-                        </ul>
-                        
-                        <h3>7.3 Acceleration-Time Graph</h3>
-                        <ul>
-                            <li>Area under curve = change in velocity</li>
-                        </ul>
-                        
-                        <h2>8. Important Points to Remember</h2>
-                        <ul>
-                            <li>Displacement is the shortest distance between initial and final positions</li>
-                            <li>Velocity is a vector quantity; speed is scalar</li>
-                            <li>Acceleration can be positive (speeding up in positive direction) or negative (slowing down)</li>
-                            <li>At maximum height in projectile motion, vertical velocity = 0 but horizontal velocity ≠ 0</li>
-                            <li>For projectile motion, time of ascent = time of descent</li>
-                            <li>In uniform circular motion, speed is constant but velocity changes</li>
-                        </ul>
-                        
-                        <h2>9. Practice Problems</h2>
-                        <ol>
-                            <li>A stone is thrown vertically upward with velocity 30 m/s. Find (a) maximum height, (b) time to return to ground. (g = 10 m/s²)</li>
-                            <li>A car moving at 20 m/s applies brakes and stops in 4 seconds. Find the deceleration and distance covered.</li>
-                            <li>A projectile is fired at 45° with velocity 40 m/s. Find range and maximum height.</li>
-                            <li>A particle moves in a circle of radius 2 m with constant speed 4 m/s. Find centripetal acceleration.</li>
-                        </ol>
-                        
-                        <div class="note-box">
-                            <p><strong>Tips for Problem Solving:</strong></p>
-                            <ul>
-                                <li>Always write down given quantities and what needs to be found</li>
-                                <li>Choose appropriate equation based on known and unknown quantities</li>
-                                <li>For projectile motion, resolve into horizontal and vertical components</li>
-                                <li>Pay attention to signs (positive/negative directions)</li>
-                                <li>Check if units are consistent</li>
-                            </ul>
-                        </div>
-                    `
-                },
-                // I'll add more topics in the next part due to length...
-                newtons: {
-                    id: 'newtons',
-                    icon: '⚖️',
-                    title: "Newton's Laws of Motion",
-                    desc: 'Three fundamental laws governing motion and forces',
-                    content: `
-                        <h1>Newton's Laws of Motion</h1>
-                        
-                        <h2>1. Introduction</h2>
-                        <p>Sir Isaac Newton formulated three fundamental laws that describe the relationship between the motion of an object and the forces acting on it. These laws form the foundation of classical mechanics.</p>
-                        
-                        <h2>2. Newton's First Law (Law of Inertia)</h2>
-                        
-                        <h3>2.1 Statement</h3>
-                        <p><strong>"An object at rest stays at rest, and an object in motion stays in motion with constant velocity, unless acted upon by an external force."</strong></p>
-                        
-                        <h3>2.2 Inertia</h3>
-                        <p><strong>Inertia:</strong> The tendency of an object to resist changes in its state of motion.</p>
-                        <ul>
-                            <li><strong>Inertia of Rest:</strong> Tendency to remain at rest</li>
-                            <li><strong>Inertia of Motion:</strong> Tendency to continue moving with same velocity</li>
-                            <li><strong>Inertia of Direction:</strong> Tendency to maintain direction of motion</li>
-                        </ul>
-                        
-                        <p><strong>Mass:</strong> Measure of inertia. Greater mass = greater inertia.</p>
-                        
-                        <div class="example-box">
-                            <h4>Real-Life Examples:</h4>
-                            <ul>
-                                <li>Passengers jerk forward when a bus suddenly stops</li>
-                                <li>Dust particles fall off when a carpet is beaten</li>
-                                <li>Athletes run before taking a long jump</li>
-                            </ul>
-                        </div>
-                        
-                        <h2>3. Newton's Second Law</h2>
-                        
-                        <h3>3.1 Statement</h3>
-                        <p><strong>"The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass."</strong></p>
-                        
-                        <div class="formula-box">
-                            F = ma<br><br>
-                            Where:<br>
-                            F = net force (N)<br>
-                            m = mass (kg)<br>
-                            a = acceleration (m/s²)
-                        </div>
-                        
-                        <h3>3.2 Alternative Forms</h3>
-                        <div class="formula-box">
-                            <strong>In terms of momentum:</strong><br>
-                            F = dp/dt<br>
-                            (Force = rate of change of momentum)<br><br>
-                            
-                            <strong>Impulse-Momentum Theorem:</strong><br>
-                            J = FΔt = Δp = m(v - u)<br>
-                            (Impulse = change in momentum)
-                        </div>
-                        
-                        <h3>3.3 Units</h3>
-                        <ul>
-                            <li><strong>Force:</strong> Newton (N) = kg⋅m/s²</li>
-                            <li><strong>Momentum:</strong> kg⋅m/s</li>
-                            <li><strong>Impulse:</strong> N⋅s = kg⋅m/s</li>
-                        </ul>
-                        
-                        <div class="example-box">
-                            <h4>Example 1: Basic Application</h4>
-                            <p><strong>Question:</strong> A force of 20 N acts on a 5 kg mass. Find the acceleration.</p>
-                            <p><strong>Solution:</strong></p>
-                            <p>Using F = ma</p>
-                            <p>20 = 5 × a</p>
-                            <p>a = 20/5 = 4 m/s²</p>
-                        </div>
-                        
-                        <h2>4. Newton's Third Law</h2>
-                        
-                        <h3>4.1 Statement</h3>
-                        <p><strong>"For every action, there is an equal and opposite reaction."</strong></p>
-                        
-                        <div class="formula-box">
-                            F_AB = -F_BA<br><br>
-                            (Force on A by B = - Force on B by A)
-                        </div>
-                        
-                        <h3>4.2 Key Points</h3>
-                        <ul>
-                            <li>Action and reaction forces act on <strong>different objects</strong></li>
-                            <li>They are <strong>equal in magnitude</strong></li>
-                            <li>They are <strong>opposite in direction</strong></li>
-                            <li>They act <strong>simultaneously</strong></li>
-                            <li>They are of the <strong>same type</strong> (both gravitational, both electromagnetic, etc.)</li>
-                        </ul>
-                        
-                        <div class="example-box">
-                            <h4>Real-Life Examples:</h4>
-                            <ul>
-                                <li>Recoil of a gun when fired</li>
-                                <li>Rocket propulsion</li>
-                                <li>Walking (foot pushes ground backward, ground pushes foot forward)</li>
-                                <li>Swimming (hands push water backward, water pushes swimmer forward)</li>
-                            </ul>
-                        </div>
-                        
-                        <h2>5. Types of Forces</h2>
-                        
-                        <h3>5.1 Friction</h3>
-                        <p>Force that opposes relative motion between surfaces in contact.</p>
-                        
-                        <h4>Static Friction (f_s)</h4>
-                        <p>Prevents motion when object is at rest</p>
-                        <div class="formula-box">
-                            f_s ≤ μ_s N<br>
-                            f_s(max) = μ_s N
-                        </div>
-                        
-                        <h4>Kinetic Friction (f_k)</h4>
-                        <p>Opposes motion when object is moving</p>
-                        <div class="formula-box">
-                            f_k = μ_k N
-                        </div>
-                        
-                        <p><strong>Where:</strong></p>
-                        <ul>
-                            <li>μ_s = coefficient of static friction</li>
-                            <li>μ_k = coefficient of kinetic friction</li>
-                            <li>N = normal force</li>
-                            <li>μ_s > μ_k (always)</li>
-                        </ul>
-                        
-                        <div class="note-box">
-                            <p><strong>Properties of Friction:</strong></p>
-                            <ul>
-                                <li>Independent of contact area</li>
-                                <li>Depends on nature of surfaces</li>
-                                <li>Proportional to normal force</li>
-                                <li>Acts parallel to contact surface</li>
-                            </ul>
-                        </div>
-                        
-                        <h3>5.2 Normal Force (N)</h3>
-                        <p>Perpendicular force exerted by a surface on an object in contact with it.</p>
-                        <ul>
-                            <li><strong>On horizontal surface:</strong> N = mg</li>
-                            <li><strong>On inclined plane:</strong> N = mg cos(θ)</li>
-                            <li><strong>In elevator accelerating up:</strong> N = m(g + a)</li>
-                            <li><strong>In elevator accelerating down:</strong> N = m(g - a)</li>
-                        </ul>
-                        
-                        <h3>5.3 Tension (T)</h3>
-                        <p>Force transmitted through a string, rope, cable, or wire when pulled.</p>
-                        <ul>
-                            <li>For massless string: Tension is same throughout</li>
-                            <li>For massive string: Tension varies along length</li>
-                            <li>Acts along the string</li>
-                        </ul>
-                        
-                        <h2>6. Free Body Diagrams (FBD)</h2>
-                        <p>A diagram showing all forces acting on an object.</p>
-                        
-                        <h3>6.1 Steps to Draw FBD</h3>
-                        <ol>
-                            <li>Isolate the object</li>
-                            <li>Draw all forces as vectors from center of mass</li>
-                            <li>Choose coordinate system</li>
-                            <li>Resolve forces into components if needed</li>
-                            <li>Apply Newton's laws</li>
-                        </ol>
-                        
-                        <div class="example-box">
-                            <h4>Example 2: Friction Problem</h4>
-                            <p><strong>Question:</strong> A 10 kg block rests on horizontal surface with μ_s = 0.5 and μ_k = 0.3. Find:</p>
-                            <p>(a) Maximum static friction</p>
-                            <p>(b) Force needed to just move it</p>
-                            <p>(c) Acceleration if 60 N force is applied</p>
-                            <p><strong>Solution:</strong></p>
-                            <p>Given: m = 10 kg, μ_s = 0.5, μ_k = 0.3, g = 10 m/s²</p>
-                            <p>(a) N = mg = 10 × 10 = 100 N</p>
-                            <p>f_s(max) = μ_s N = 0.5 × 100 = 50 N</p>
-                            <p>(b) Force needed to just move = f_s(max) = 50 N</p>
-                            <p>(c) When F = 60 N (object will move):</p>
-                            <p>f_k = μ_k N = 0.3 × 100 = 30 N</p>
-                            <p>Net force = F - f_k = 60 - 30 = 30 N</p>
-                            <p>a = F_net / m = 30 / 10 = 3 m/s²</p>
-                        </div>
-                        
-                        <h2>7. Applications</h2>
-                        
-                        <h3>7.1 Atwood Machine</h3>
-                        <p>Two masses connected by string over a pulley</p>
-                        <div class="formula-box">
-                            Acceleration: a = (m₁ - m₂)g / (m₁ + m₂)<br>
-                            Tension: T = 2m₁m₂g / (m₁ + m₂)<br>
-                            (assuming m₁ > m₂)
-                        </div>
-                        
-                        <h3>7.2 Motion on Inclined Plane</h3>
-                        <p><strong>Components of weight:</strong></p>
-                        <ul>
-                            <li>Parallel to plane: mg sin(θ)</li>
-                            <li>Perpendicular to plane: mg cos(θ)</li>
-                        </ul>
-                        
-                        <p><strong>Acceleration down plane (with friction):</strong></p>
-                        <div class="formula-box">
-                            a = g(sin(θ) - μ cos(θ))
-                        </div>
-                        
-                        <h3>7.3 Connected Bodies</h3>
-                        <p>For bodies connected by string:</p>
-                        <ul>
-                            <li>Acceleration is same for all connected bodies</li>
-                            <li>Tension may be different in different parts</li>
-                            <li>Apply Newton's second law to each body separately</li>
-                        </ul>
-                        
-                        <div class="example-box">
-                            <h4>Example 3: Inclined Plane</h4>
-                            <p><strong>Question:</strong> A 5 kg block slides down a 30° incline with μ = 0.2. Find acceleration.</p>
-                            <p><strong>Solution:</strong></p>
-                            <p>Component parallel to plane: F_parallel = mg sin(30°) = 5 × 10 × 0.5 = 25 N</p>
-                            <p>Normal force: N = mg cos(30°) = 5 × 10 × 0.866 = 43.3 N</p>
-                            <p>Friction: f = μN = 0.2 × 43.3 = 8.66 N</p>
-                            <p>Net force: F_net = 25 - 8.66 = 16.34 N</p>
-                            <p>Acceleration: a = F_net / m = 16.34 / 5 = 3.27 m/s²</p>
-                        </div>
-                        
-                        <h2>8. Important Concepts</h2>
-                        
-                        <h3>8.1 Equilibrium</h3>
-                        <p>When net force = 0, object is in equilibrium</p>
-                        <ul>
-                            <li><strong>Static equilibrium:</strong> Object at rest</li>
-                            <li><strong>Dynamic equilibrium:</strong> Object moving with constant velocity</li>
-                        </ul>
-                        
-                        <h3>8.2 Pseudo Forces</h3>
-                        <p>Fictitious forces that appear in non-inertial (accelerating) reference frames</p>
-                        <div class="formula-box">
-                            F_pseudo = -ma<br>
-                            (opposite to acceleration of frame)
-                        </div>
-                        
-                        <h2>9. Key Points to Remember</h2>
-                        <ul>
-                            <li>Net force = 0 → object in equilibrium (at rest or constant velocity)</li>
-                            <li>μ_s > μ_k always</li>
-                            <li>Friction is independent of contact area</li>
-                            <li>Friction depends on nature of surfaces in contact</li>
-                            <li>Normal force ≠ weight always (depends on situation)</li>
-                            <li>Tension in massless string is uniform throughout</li>
-                            <li>Action-reaction pairs act on different objects</li>
-                        </ul>
-                        
-                        <h2>10. Practice Problems</h2>
-                        <ol>
-                            <li>A 2 kg block is pulled by 15 N force on frictionless surface. Find acceleration.</li>
-                            <li>Two blocks of 3 kg and 5 kg are connected by string over pulley. Find acceleration and tension.</li>
-                            <li>A 10 kg block on 45° incline with μ = 0.3. Will it slide? If yes, find acceleration.</li>
-                            <li>A person of mass 60 kg stands in elevator accelerating upward at 2 m/s². Find normal force.</li>
-                        </ol>
-                    `
-                }
-                // Due to length constraints, I'll create a system to load remaining topics dynamically
-            }
-        };
-        
         // User Management
         let currentUser = null;
         let userProgress = {
@@ -1117,7 +609,7 @@
             updateUserInfo();
         }
         
-        // Topics Database with all 40 topics
+        // Topics Database
         const topicsDatabase = {
             physics: [
                 {id:'kinematics',icon:'🚀',title:'Kinematics',desc:'Motion, velocity, acceleration, projectile'},
@@ -1197,7 +689,28 @@
         // Show topic detail
         function showTopicDetail(subject, topicId) {
             const detailPage = document.getElementById('topic-detail');
-            const topicData = COMPLETE_CONTENT[subject]?.[topicId];
+            
+            // Check if external content database is loaded
+            if (typeof window.COMPLETE_CONTENT_DB === 'undefined') {
+                detailPage.innerHTML = `
+                    <button class="btn back-btn" onclick="goBack('${subject}')">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading content database...
+                    </div>
+                `;
+                
+                // Show detail page
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                detailPage.classList.add('active');
+                
+                // Retry after a moment
+                setTimeout(() => showTopicDetail(subject, topicId), 1000);
+                return;
+            }
+            
+            const topicData = window.COMPLETE_CONTENT_DB[subject]?.[topicId];
             
             if (topicData) {
                 detailPage.innerHTML = `
@@ -1219,14 +732,18 @@
                 // Show detail page
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 detailPage.classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
             } else {
-                alert(`Full content for ${topicId} coming soon!`);
+                alert(`Content for ${topicId} is being added. Check back soon!`);
             }
         }
         
         function goBack(subject) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(subject).classList.add('active');
+            window.scrollTo(0, 0);
         }
         
         // Navigation
@@ -1244,6 +761,8 @@
                         loadSubjectPage(page, pageEl);
                     }
                 }
+                
+                window.scrollTo(0, 0);
             });
         });
         
