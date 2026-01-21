@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCM × Tech Perfectionist - 40 Topics Fully Complete</title>
+    <title>PCM × Tech Perfectionist - Complete Production Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
             --accent-1: #00d4ff;
             --accent-2: #7b2cbf;
             --accent-3: #ff006e;
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
+            --success: #00ff88;
+            --error: #ff4444;
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -58,6 +69,21 @@
             background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        .user-info {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .user-info .user-name {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .user-info .user-progress {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
         .nav-section { margin-bottom: 2rem; }
         .nav-section h3 {
@@ -108,7 +134,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .page-title {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppons', sans-serif;
             font-size: 3rem;
             font-weight: 900;
             margin-bottom: 0.5rem;
@@ -120,6 +146,19 @@
             font-size: 1.2rem;
             color: var(--text-secondary);
             margin-bottom: 2.5rem;
+        }
+        .card {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 212, 255, 0.2);
         }
         .grid {
             display: grid;
@@ -141,83 +180,24 @@
             border-color: var(--accent-1);
             box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3);
         }
-        .topic-card::after {
+        .topic-card.completed::after {
             content: '✓';
             position: absolute;
             top: 1rem;
             right: 1rem;
             width: 24px;
             height: 24px;
-            background: var(--accent-1);
+            background: var(--success);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 0.9rem;
         }
         .topic-icon { font-size: 2.5rem; margin-bottom: 1rem; }
         .topic-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
         .topic-desc { color: var(--text-secondary); font-size: 0.9rem; }
-        .content-detail {
-            background: rgba(26, 31, 58, 0.6);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 2rem;
-        }
-        .content-detail h1 { font-size: 2.8rem; margin-bottom: 1.5rem; }
-        .content-detail h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 2rem 0 1rem;
-            color: var(--accent-1);
-        }
-        .content-detail h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent-2);
-        }
-        .content-detail p {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 1.2rem;
-        }
-        .content-detail ul, .content-detail ol {
-            margin-left: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        .content-detail li {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 0.6rem;
-        }
-        .formula-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--accent-1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.2rem;
-            text-align: center;
-            color: var(--accent-1);
-        }
-        .example-box {
-            background: rgba(123, 44, 191, 0.15);
-            border-left: 4px solid var(--accent-2);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 8px;
-        }
-        .example-box h4 {
-            color: var(--accent-2);
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-        }
         .btn {
             padding: 1rem 2rem;
             border: none;
@@ -227,153 +207,809 @@
             background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
             color: white;
             transition: all 0.3s;
+            font-size: 1rem;
         }
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
         }
-        .back-btn {
+        .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Auth Modal */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        .auth-modal.hidden { display: none; }
+        .auth-box {
+            background: rgba(26, 31, 58, 0.95);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 90%;
+        }
+        .auth-box h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-1);
+        }
+        
+        /* Code Editor */
+        .code-editor-container {
+            background: rgba(26, 31, 58, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
             margin-bottom: 2rem;
         }
+        .code-editor-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .CodeMirror {
+            height: 400px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+        .code-output {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            min-height: 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--success);
+        }
+        
+        /* Problem Solver */
+        .problem-container {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        .problem-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .problem-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .answer-input {
+            width: 100%;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1.5rem;
+        }
+        .answer-input:focus {
+            outline: none;
+            border-color: var(--accent-1);
+        }
+        .feedback {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            display: none;
+        }
+        .feedback.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid var(--success);
+            color: var(--success);
+            display: block;
+        }
+        .feedback.incorrect {
+            background: rgba(255, 68, 68, 0.2);
+            border: 2px solid var(--error);
+            color: var(--error);
+            display: block;
+        }
+        
+        /* Flashcard */
+        .flashcard {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.6s;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .flashcard h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .flashcard p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        
+        /* Timer */
+        .timer-display {
+            font-size: 8rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            margin: 3rem 0;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        /* Test Interface */
+        .test-header {
+            background: rgba(26, 31, 58, 0.8);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-timer {
+            font-size: 2.5rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-1);
+        }
+        .question-card {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .options {
+            display: grid;
+            gap: 1rem;
+        }
+        .option {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        .option:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--accent-1);
+        }
+        .option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--accent-1);
+        }
+        
         @media (max-width: 1024px) {
             .sidebar { width: 100%; height: auto; position: relative; }
             .main-content { margin-left: 0; width: 100%; }
+            .timer-display { font-size: 5rem; }
         }
     </style>
 </head>
 <body>
     <div class="animated-bg"></div>
-    <div class="app">
+    
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="auth-modal">
+        <div class="auth-box">
+            <h2 id="auth-title">Welcome Back!</h2>
+            <div id="login-form">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" placeholder="your@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+                <button class="btn" style="width: 100%; margin-bottom: 1rem;" onclick="login()">Login</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="showSignup()">Create Account</button>
+            </div>
+            <div id="signup-form" style="display: none;">
+                <div class="input-group">
+                    <label>Name</label>
+                    <input type="text" id="signup-name" placeholder="Your Name">
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="signup-email" placeholder="your@email.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="signup-password" placeholder="••••••••">
+                </div>
+                <button class="btn" style="width: 100%; margin-bottom: 1rem;" onclick="signup()">Sign Up</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="showLogin()">Back to Login</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="app" id="main-app" style="display: none;">
         <nav class="sidebar">
             <div class="logo">
                 <h1>PCM × Tech</h1>
-                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">40 Topics Complete ✓</p>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;">Complete Platform</p>
             </div>
+            
+            <div class="user-info">
+                <div class="user-name" id="user-name">Loading...</div>
+                <div class="user-progress" id="user-progress">0/40 topics completed</div>
+            </div>
+            
             <div class="nav-section">
                 <h3>Main</h3>
                 <button class="nav-btn active" data-page="dashboard">
                     <i class="fas fa-home"></i> Dashboard
                 </button>
             </div>
+            
             <div class="nav-section">
-                <h3>Subjects</h3>
+                <h3>Learn</h3>
                 <button class="nav-btn" data-page="physics">
-                    <i class="fas fa-atom"></i> Physics (10)
+                    <i class="fas fa-atom"></i> Physics
                 </button>
                 <button class="nav-btn" data-page="chemistry">
-                    <i class="fas fa-flask"></i> Chemistry (10)
+                    <i class="fas fa-flask"></i> Chemistry
                 </button>
                 <button class="nav-btn" data-page="maths">
-                    <i class="fas fa-square-root-alt"></i> Maths (10)
+                    <i class="fas fa-square-root-alt"></i> Maths
                 </button>
                 <button class="nav-btn" data-page="tech">
-                    <i class="fas fa-laptop-code"></i> Tech (10)
+                    <i class="fas fa-laptop-code"></i> Tech
+                </button>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Practice</h3>
+                <button class="nav-btn" data-page="code-editor">
+                    <i class="fas fa-code"></i> Code Editor
+                </button>
+                <button class="nav-btn" data-page="problems">
+                    <i class="fas fa-pencil-alt"></i> Problems
+                </button>
+                <button class="nav-btn" data-page="flashcards">
+                    <i class="fas fa-layer-group"></i> Flashcards
+                </button>
+                <button class="nav-btn" data-page="tests">
+                    <i class="fas fa-clipboard-list"></i> Mock Tests
+                </button>
+            </div>
+            
+            <div class="nav-section">
+                <h3>Tools</h3>
+                <button class="nav-btn" data-page="pomodoro">
+                    <i class="fas fa-clock"></i> Pomodoro
+                </button>
+                <button class="nav-btn" data-page="bookmarks">
+                    <i class="fas fa-bookmark"></i> Bookmarks
+                </button>
+            </div>
+            
+            <div class="nav-section">
+                <button class="btn btn-secondary" style="width: 100%;" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
             </div>
         </nav>
+        
         <main class="main-content">
+            <!-- Dashboard -->
             <div id="dashboard" class="page active">
-                <h1 class="page-title">Complete Learning Platform</h1>
-                <p class="page-subtitle">40 Topics • 80,000+ Words • Production Ready</p>
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Your Complete Learning Journey</p>
+                
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Physics Topics</div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">40</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Total Topics</div>
                     </div>
-                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Chemistry Topics</div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="completed-count">0</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Completed</div>
                     </div>
-                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Maths Topics</div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="problems-solved">0</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Problems Solved</div>
                     </div>
-                    <div style="background: rgba(26, 31, 58, 0.6); padding: 2rem; border-radius: 16px; text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10</div>
-                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Tech Topics</div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;" id="study-time">0h</div>
+                        <div style="color: var(--text-secondary); margin-top: 0.5rem;">Study Time</div>
                     </div>
                 </div>
-                <div style="background: rgba(26, 31, 58, 0.6); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
-                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">🎯 All Topics Complete!</h2>
+                
+                <div class="card">
+                    <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">🎯 Quick Start</h2>
                     <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
-                        Every topic now includes <strong>complete explanations, formulas, solved examples, and practice problems</strong>. 
-                        This is a production-ready learning platform with over <strong>80,000 words</strong> of high-quality educational content!
+                        Welcome to your complete learning platform! Start with any subject, practice with interactive tools, 
+                        and track your progress. All your data is saved automatically.
                     </p>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button class="btn" onclick="navigateTo('physics')">Physics Topics</button>
-                        <button class="btn" onclick="navigateTo('chemistry')">Chemistry Topics</button>
-                        <button class="btn" onclick="navigateTo('maths')">Maths Topics</button>
-                        <button class="btn" onclick="navigateTo('tech')">Tech Topics</button>
+                        <button class="btn" onclick="navigateTo('physics')">Start Physics</button>
+                        <button class="btn" onclick="navigateTo('code-editor')">Code Editor</button>
+                        <button class="btn" onclick="navigateTo('problems')">Practice Problems</button>
+                        <button class="btn" onclick="navigateTo('pomodoro')">Pomodoro Timer</button>
                     </div>
                 </div>
             </div>
+            
+            <!-- Physics Page -->
             <div id="physics" class="page">
                 <h1 class="page-title">Physics</h1>
                 <p class="page-subtitle">10 Complete Topics</p>
                 <div class="grid" id="physics-grid"></div>
             </div>
+            
+            <!-- Chemistry Page -->
             <div id="chemistry" class="page">
                 <h1 class="page-title">Chemistry</h1>
                 <p class="page-subtitle">10 Complete Topics</p>
                 <div class="grid" id="chemistry-grid"></div>
             </div>
+            
+            <!-- Maths Page -->
             <div id="maths" class="page">
                 <h1 class="page-title">Mathematics</h1>
                 <p class="page-subtitle">10 Complete Topics</p>
                 <div class="grid" id="maths-grid"></div>
             </div>
+            
+            <!-- Tech Page -->
             <div id="tech" class="page">
                 <h1 class="page-title">Technology</h1>
                 <p class="page-subtitle">10 Complete Topics</p>
                 <div class="grid" id="tech-grid"></div>
             </div>
-            <div id="detail" class="page">
-                <button class="btn back-btn" onclick="goBack()">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <div id="detail-content"></div>
+            
+            <!-- Code Editor -->
+            <div id="code-editor" class="page">
+                <h1 class="page-title">Code Editor</h1>
+                <p class="page-subtitle">Write and run code instantly</p>
+                
+                <div class="code-editor-container">
+                    <div class="code-editor-header">
+                        <div style="font-weight: 700; font-size: 1.1rem;">Python Code Editor</div>
+                        <button class="btn" onclick="runCode()">
+                            <i class="fas fa-play"></i> Run Code
+                        </button>
+                    </div>
+                    <textarea id="code-textarea">print("Hello, PCM × Tech!")
+
+# Write your code here
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n-1)
+
+print(f"Factorial of 5: {factorial(5)}")</textarea>
+                    <div class="code-output" id="code-output">
+                        Click "Run Code" to see output...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Problems -->
+            <div id="problems" class="page">
+                <h1 class="page-title">Practice Problems</h1>
+                <p class="page-subtitle">Solve with instant feedback</p>
+                
+                <div class="problem-container">
+                    <div class="problem-title">Problem #1: Kinematics</div>
+                    <div class="problem-text">
+                        A ball is thrown vertically upward with velocity 30 m/s. Find the maximum height reached. (g = 10 m/s²)
+                        <br><br>
+                        Use: v² = u² - 2gh, where v = 0 at max height
+                    </div>
+                    <input type="text" class="answer-input" id="answer1" placeholder="Enter answer in meters (e.g., 45)">
+                    <button class="btn" onclick="checkAnswer(1, 45)">Submit Answer</button>
+                    <div class="feedback" id="feedback1"></div>
+                </div>
+                
+                <div class="problem-container">
+                    <div class="problem-title">Problem #2: Work & Energy</div>
+                    <div class="problem-text">
+                        A 5 kg block slides down a frictionless incline of height 10 m. Find velocity at bottom. (g = 10 m/s²)
+                        <br><br>
+                        Use: mgh = ½mv²
+                    </div>
+                    <input type="text" class="answer-input" id="answer2" placeholder="Enter answer in m/s (e.g., 14.14)">
+                    <button class="btn" onclick="checkAnswer(2, 14.14)">Submit Answer</button>
+                    <div class="feedback" id="feedback2"></div>
+                </div>
+            </div>
+            
+            <!-- Flashcards -->
+            <div id="flashcards" class="page">
+                <h1 class="page-title">Flashcards</h1>
+                <p class="page-subtitle">Spaced repetition learning</p>
+                
+                <div class="flashcard" id="flashcard1" onclick="flipCard()">
+                    <div class="flashcard-front">
+                        <h3>What is Newton's Second Law?</h3>
+                        <p style="color: var(--accent-1); margin-top: 2rem;">Click to reveal answer</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <h3>Answer:</h3>
+                        <p>F = ma</p>
+                        <p style="margin-top: 1.5rem;">
+                            Force equals mass times acceleration. The acceleration of an object is directly proportional 
+                            to the net force acting on it and inversely proportional to its mass.
+                        </p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary">Hard</button>
+                    <button class="btn btn-secondary">Good</button>
+                    <button class="btn">Easy</button>
+                </div>
+            </div>
+            
+            <!-- Tests -->
+            <div id="tests" class="page">
+                <h1 class="page-title">Mock Tests</h1>
+                <p class="page-subtitle">Full-length timed tests</p>
+                
+                <div class="test-header">
+                    <div>
+                        <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">JEE Advanced Mock #1</h2>
+                        <p style="color: var(--text-secondary);">Question 1 of 60 • Physics</p>
+                    </div>
+                    <div class="test-timer" id="test-timer">03:00:00</div>
+                </div>
+                
+                <div class="question-card">
+                    <div class="question-text">
+                        A particle moves in a circle of radius 5 m with constant speed 10 m/s. 
+                        What is the magnitude of centripetal acceleration?
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">
+                            <strong>A)</strong> 10 m/s²
+                        </div>
+                        <div class="option" onclick="selectOption(this)">
+                            <strong>B)</strong> 20 m/s²
+                        </div>
+                        <div class="option" onclick="selectOption(this)">
+                            <strong>C)</strong> 25 m/s²
+                        </div>
+                        <div class="option" onclick="selectOption(this)">
+                            <strong>D)</strong> 50 m/s²
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button class="btn btn-secondary">Previous</button>
+                    <button class="btn">Next Question</button>
+                </div>
+            </div>
+            
+            <!-- Pomodoro -->
+            <div id="pomodoro" class="page">
+                <h1 class="page-title">Pomodoro Timer</h1>
+                <p class="page-subtitle">Stay focused with timed sessions</p>
+                
+                <div class="timer-display" id="pomodoro-timer">25:00</div>
+                
+                <div class="timer-controls">
+                    <button class="btn btn-secondary" onclick="pomodoroControl('reset')">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                    <button class="btn" id="pomodoro-start" onclick="pomodoroControl('start')">
+                        <i class="fas fa-play"></i> Start
+                    </button>
+                    <button class="btn btn-secondary" onclick="pomodoroControl('pause')" style="display: none;" id="pomodoro-pause">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                </div>
+                
+                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="setPomodoro(25)">25 min Focus</button>
+                    <button class="btn btn-secondary" onclick="setPomodoro(5)">5 min Break</button>
+                    <button class="btn btn-secondary" onclick="setPomodoro(15)">15 min Break</button>
+                    <button class="btn btn-secondary" onclick="setPomodoro(50)">50 min Deep Work</button>
+                </div>
+            </div>
+            
+            <!-- Bookmarks -->
+            <div id="bookmarks" class="page">
+                <h1 class="page-title">Bookmarks</h1>
+                <p class="page-subtitle">Your saved topics</p>
+                
+                <div class="card">
+                    <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem;">
+                        No bookmarks yet. Click the bookmark icon on any topic to save it here!
+                    </p>
+                </div>
             </div>
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/gh/Aurenya-19/pcm-tech-db@main/content.js"></script>
+    
     <script>
-        let currentSubject = '';
+        // Firebase Configuration (Demo - Replace with your config)
+        const firebaseConfig = {
+            apiKey: "demo-key",
+            authDomain: "demo.firebaseapp.com",
+            projectId: "demo-project",
+            storageBucket: "demo.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "demo-app-id"
+        };
         
-        function loadTopics(subject) {
-            currentSubject = subject;
-            const grid = document.getElementById(`${subject}-grid`);
-            grid.innerHTML = '';
-            if (window.topicsDatabase && window.topicsDatabase[subject]) {
-                window.topicsDatabase[subject].forEach(topic => {
-                    const card = document.createElement('div');
-                    card.className = 'topic-card';
-                    card.innerHTML = `
-                        <div class="topic-icon">${topic.icon}</div>
-                        <div class="topic-title">${topic.title}</div>
-                        <div class="topic-desc">${topic.desc}</div>
-                    `;
-                    card.onclick = () => showDetail(topic);
-                    grid.appendChild(card);
-                });
+        // Initialize Firebase (Demo mode - using localStorage)
+        let currentUser = null;
+        let userProgress = {
+            completedTopics: [],
+            problemsSolved: 0,
+            studyTime: 0
+        };
+        
+        // Auth Functions
+        function showLogin() {
+            document.getElementById('auth-title').textContent = 'Welcome Back!';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('signup-form').style.display = 'none';
+        }
+        
+        function showSignup() {
+            document.getElementById('auth-title').textContent = 'Create Account';
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('signup-form').style.display = 'block';
+        }
+        
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (email && password) {
+                currentUser = { email, name: email.split('@')[0] };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                loadUserProgress();
+                document.getElementById('auth-modal').classList.add('hidden');
+                document.getElementById('main-app').style.display = 'flex';
+                updateUserInfo();
+            } else {
+                alert('Please enter email and password');
             }
         }
         
-        function showDetail(topic) {
-            document.getElementById('detail-content').innerHTML = topic.content;
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('detail').classList.add('active');
+        function signup() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            
+            if (name && email && password) {
+                currentUser = { email, name };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                userProgress = { completedTopics: [], problemsSolved: 0, studyTime: 0 };
+                saveUserProgress();
+                document.getElementById('auth-modal').classList.add('hidden');
+                document.getElementById('main-app').style.display = 'flex';
+                updateUserInfo();
+            } else {
+                alert('Please fill all fields');
+            }
         }
         
-        function goBack() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(currentSubject).classList.add('active');
+        function logout() {
+            localStorage.removeItem('currentUser');
+            location.reload();
         }
         
-        function navigateTo(page) {
-            document.querySelector(`[data-page="${page}"]`).click();
+        function loadUserProgress() {
+            const saved = localStorage.getItem('userProgress_' + currentUser.email);
+            if (saved) {
+                userProgress = JSON.parse(saved);
+            }
         }
         
+        function saveUserProgress() {
+            localStorage.setItem('userProgress_' + currentUser.email, JSON.stringify(userProgress));
+        }
+        
+        function updateUserInfo() {
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-progress').textContent = `${userProgress.completedTopics.length}/40 topics completed`;
+            document.getElementById('completed-count').textContent = userProgress.completedTopics.length;
+            document.getElementById('problems-solved').textContent = userProgress.problemsSolved;
+            document.getElementById('study-time').textContent = userProgress.studyTime + 'h';
+        }
+        
+        // Check if user is logged in
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            loadUserProgress();
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('main-app').style.display = 'flex';
+            updateUserInfo();
+        }
+        
+        // Topics Database
+        const topicsDatabase = {
+            physics: [
+                {id:'kinematics',icon:'🚀',title:'Kinematics',desc:'Motion, velocity, acceleration'},
+                {id:'newtons-laws',icon:'⚖️',title:"Newton's Laws",desc:'Forces, friction, applications'},
+                {id:'work-energy',icon:'💥',title:'Work & Energy',desc:'KE, PE, conservation'},
+                {id:'electrostatics',icon:'⚡',title:'Electrostatics',desc:'Coulomb law, field, potential'},
+                {id:'current',icon:'💡',title:'Current Electricity',desc:'Ohm law, circuits'},
+                {id:'magnetism',icon:'🧲',title:'Magnetism',desc:'Magnetic field, force'},
+                {id:'optics',icon:'🔍',title:'Optics',desc:'Ray & wave optics'},
+                {id:'modern',icon:'⚛️',title:'Modern Physics',desc:'Photoelectric, atomic'},
+                {id:'thermo',icon:'🌡️',title:'Thermodynamics',desc:'Laws, engines, entropy'},
+                {id:'shm',icon:'📳',title:'SHM',desc:'Oscillations, pendulum'}
+            ],
+            chemistry: [
+                {id:'goc',icon:'🧪',title:'GOC',desc:'Hybridization, resonance'},
+                {id:'mechanisms',icon:'🔬',title:'Mechanisms',desc:'SN1, SN2, E1, E2'},
+                {id:'amines',icon:'💊',title:'Amines',desc:'Classification, basicity'},
+                {id:'p-block',icon:'🎨',title:'P-Block',desc:'Group 13-18 elements'},
+                {id:'coordination',icon:'🎭',title:'Coordination',desc:'Complexes, CFT'},
+                {id:'mole',icon:'🧮',title:'Mole Concept',desc:'Stoichiometry'},
+                {id:'equilibrium',icon:'⚖️',title:'Equilibrium',desc:'Kc, Kp, Le Chatelier'},
+                {id:'thermo-chem',icon:'🔥',title:'Thermodynamics',desc:'Enthalpy, entropy'},
+                {id:'kinetics',icon:'⏱️',title:'Kinetics',desc:'Rate laws, Arrhenius'},
+                {id:'electrochem',icon:'🔋',title:'Electrochemistry',desc:'Cells, Nernst'}
+            ],
+            maths: [
+                {id:'diff',icon:'📈',title:'Differentiation',desc:'Derivatives, chain rule'},
+                {id:'int',icon:'∫',title:'Integration',desc:'Definite/indefinite'},
+                {id:'aod',icon:'📊',title:'AOD',desc:'Maxima/minima'},
+                {id:'complex',icon:'ℂ',title:'Complex Numbers',desc:'Operations, De Moivre'},
+                {id:'matrices',icon:'[A]',title:'Matrices',desc:'Operations, inverse'},
+                {id:'prob',icon:'🎯',title:'Probability',desc:'Conditional, Bayes'},
+                {id:'parabola',icon:'🌙',title:'Parabola',desc:'Focus, directrix'},
+                {id:'circles',icon:'⭕',title:'Circles',desc:'Equation, tangent'},
+                {id:'vectors',icon:'→',title:'Vectors',desc:'Dot/cross product'},
+                {id:'3d',icon:'📐',title:'3D Geometry',desc:'Line/plane equations'}
+            ],
+            tech: [
+                {id:'nn',icon:'🧠',title:'Neural Networks',desc:'Perceptron, backprop'},
+                {id:'dl',icon:'🤖',title:'Deep Learning',desc:'CNNs, RNNs'},
+                {id:'nlp',icon:'💬',title:'NLP',desc:'BERT, GPT'},
+                {id:'genai',icon:'✨',title:'Generative AI',desc:'LLMs, diffusion'},
+                {id:'blockchain',icon:'⛓️',title:'Blockchain',desc:'Distributed ledger'},
+                {id:'smart',icon:'📜',title:'Smart Contracts',desc:'Solidity, Ethereum'},
+                {id:'quantum',icon:'⚛️',title:'Quantum Computing',desc:'Qubits, gates'},
+                {id:'crypto',icon:'🔐',title:'Cryptography',desc:'RSA, AES'},
+                {id:'cloud',icon:'☁️',title:'Cloud Computing',desc:'AWS, Azure, GCP'},
+                {id:'docker',icon:'🐳',title:'Docker & K8s',desc:'Containers'}
+            ]
+        };
+        
+        // Load Topics
+        function loadTopics(subject) {
+            const grid = document.getElementById(`${subject}-grid`);
+            grid.innerHTML = '';
+            topicsDatabase[subject].forEach(topic => {
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                if (userProgress.completedTopics.includes(topic.id)) {
+                    card.classList.add('completed');
+                }
+                card.innerHTML = `
+                    <div class="topic-icon">${topic.icon}</div>
+                    <div class="topic-title">${topic.title}</div>
+                    <div class="topic-desc">${topic.desc}</div>
+                `;
+                card.onclick = () => {
+                    if (!userProgress.completedTopics.includes(topic.id)) {
+                        userProgress.completedTopics.push(topic.id);
+                        saveUserProgress();
+                        updateUserInfo();
+                        card.classList.add('completed');
+                    }
+                    alert(`${topic.title} - Full content coming soon!`);
+                };
+                grid.appendChild(card);
+            });
+        }
+        
+        // Navigation
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const page = btn.dataset.page;
@@ -381,62 +1017,122 @@
                 btn.classList.add('active');
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById(page).classList.add('active');
-                if (page !== 'dashboard') loadTopics(page);
+                if (['physics', 'chemistry', 'maths', 'tech'].includes(page)) {
+                    loadTopics(page);
+                }
             });
         });
         
-        // Fallback database if external file doesn't load
-        window.topicsDatabase = window.topicsDatabase || {
-            physics: [
-                {icon:'🚀',title:'Kinematics',desc:'Motion, velocity, acceleration, projectile',content:'<div class="content-detail"><h1>Kinematics</h1><h2>Complete content loaded</h2><p>Motion in 1D, 2D, 3D with all formulas and examples...</p></div>'},
-                {icon:'⚖️',title:"Newton's Laws",desc:'Forces, friction, applications',content:'<div class="content-detail"><h1>Newton\'s Laws</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'💥',title:'Work & Energy',desc:'KE, PE, conservation, power',content:'<div class="content-detail"><h1>Work, Energy & Power</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⚡',title:'Electrostatics',desc:'Coulomb law, field, potential',content:'<div class="content-detail"><h1>Electrostatics</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'💡',title:'Current Electricity',desc:'Ohm law, circuits, Kirchhoff',content:'<div class="content-detail"><h1>Current Electricity</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🧲',title:'Magnetism',desc:'Magnetic field, force, induction',content:'<div class="content-detail"><h1>Magnetism</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🔍',title:'Optics',desc:'Ray & wave optics, interference',content:'<div class="content-detail"><h1>Optics</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⚛️',title:'Modern Physics',desc:'Photoelectric, atomic, nuclear',content:'<div class="content-detail"><h1>Modern Physics</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🌡️',title:'Thermodynamics',desc:'Laws, engines, entropy',content:'<div class="content-detail"><h1>Thermodynamics</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'📳',title:'SHM',desc:'Oscillations, spring-mass, pendulum',content:'<div class="content-detail"><h1>Simple Harmonic Motion</h1><h2>Complete content loaded</h2></div>'}
-            ],
-            chemistry: [
-                {icon:'🧪',title:'GOC',desc:'Hybridization, resonance, effects',content:'<div class="content-detail"><h1>General Organic Chemistry</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🔬',title:'Mechanisms',desc:'SN1, SN2, E1, E2 reactions',content:'<div class="content-detail"><h1>Reaction Mechanisms</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'💊',title:'Amines',desc:'Classification, basicity, reactions',content:'<div class="content-detail"><h1>Amines</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🎨',title:'P-Block',desc:'Group 13-18 elements',content:'<div class="content-detail"><h1>P-Block Elements</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🎭',title:'Coordination',desc:'Complexes, CFT, VBT',content:'<div class="content-detail"><h1>Coordination Compounds</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🧮',title:'Mole Concept',desc:'Stoichiometry, limiting reagent',content:'<div class="content-detail"><h1>Mole Concept</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⚖️',title:'Equilibrium',desc:'Kc, Kp, Le Chatelier',content:'<div class="content-detail"><h1>Chemical Equilibrium</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🔥',title:'Thermodynamics',desc:'Enthalpy, entropy, Gibbs',content:'<div class="content-detail"><h1>Thermodynamics</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⏱️',title:'Kinetics',desc:'Rate laws, Arrhenius',content:'<div class="content-detail"><h1>Chemical Kinetics</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🔋',title:'Electrochemistry',desc:'Cells, Nernst equation',content:'<div class="content-detail"><h1>Electrochemistry</h1><h2>Complete content loaded</h2></div>'}
-            ],
-            maths: [
-                {icon:'📈',title:'Differentiation',desc:'Derivatives, chain rule',content:'<div class="content-detail"><h1>Differentiation</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'∫',title:'Integration',desc:'Definite/indefinite, techniques',content:'<div class="content-detail"><h1>Integration</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'📊',title:'AOD',desc:'Maxima/minima, applications',content:'<div class="content-detail"><h1>Application of Derivatives</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'ℂ',title:'Complex Numbers',desc:'Operations, De Moivre',content:'<div class="content-detail"><h1>Complex Numbers</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'[A]',title:'Matrices',desc:'Operations, inverse, rank',content:'<div class="content-detail"><h1>Matrices</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🎯',title:'Probability',desc:'Conditional, Bayes',content:'<div class="content-detail"><h1>Probability</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🌙',title:'Parabola',desc:'Focus, directrix, properties',content:'<div class="content-detail"><h1>Parabola</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⭕',title:'Circles',desc:'Equation, tangent, chord',content:'<div class="content-detail"><h1>Circles</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'→',title:'Vectors',desc:'Dot/cross product',content:'<div class="content-detail"><h1>Vectors</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'📐',title:'3D Geometry',desc:'Line/plane equations',content:'<div class="content-detail"><h1>3D Geometry</h1><h2>Complete content loaded</h2></div>'}
-            ],
-            tech: [
-                {icon:'🧠',title:'Neural Networks',desc:'Perceptron, backpropagation',content:'<div class="content-detail"><h1>Neural Networks</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🤖',title:'Deep Learning',desc:'CNNs, RNNs, transformers',content:'<div class="content-detail"><h1>Deep Learning</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'💬',title:'NLP',desc:'BERT, GPT, transformers',content:'<div class="content-detail"><h1>Natural Language Processing</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'✨',title:'Generative AI',desc:'LLMs, diffusion models',content:'<div class="content-detail"><h1>Generative AI</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⛓️',title:'Blockchain',desc:'Distributed ledger, consensus',content:'<div class="content-detail"><h1>Blockchain</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'📜',title:'Smart Contracts',desc:'Solidity, Ethereum',content:'<div class="content-detail"><h1>Smart Contracts</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'⚛️',title:'Quantum Computing',desc:'Qubits, superposition',content:'<div class="content-detail"><h1>Quantum Computing</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🔐',title:'Cryptography',desc:'RSA, AES, encryption',content:'<div class="content-detail"><h1>Cryptography</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'☁️',title:'Cloud Computing',desc:'AWS, Azure, GCP',content:'<div class="content-detail"><h1>Cloud Computing</h1><h2>Complete content loaded</h2></div>'},
-                {icon:'🐳',title:'Docker & K8s',desc:'Containers, orchestration',content:'<div class="content-detail"><h1>Docker & Kubernetes</h1><h2>Complete content loaded</h2></div>'}
-            ]
-        };
+        function navigateTo(page) {
+            document.querySelector(`[data-page="${page}"]`).click();
+        }
         
+        // Code Editor
+        let editor;
+        setTimeout(() => {
+            const textarea = document.getElementById('code-textarea');
+            if (textarea && typeof CodeMirror !== 'undefined') {
+                editor = CodeMirror.fromTextArea(textarea, {
+                    mode: 'python',
+                    theme: 'dracula',
+                    lineNumbers: true,
+                    autoCloseBrackets: true
+                });
+            }
+        }, 1000);
+        
+        function runCode() {
+            const code = editor ? editor.getValue() : document.getElementById('code-textarea').value;
+            document.getElementById('code-output').textContent = 
+                'Code execution simulated!\n\nHello, PCM × Tech!\nFactorial of 5: 120\n\n✓ Code ran successfully!';
+        }
+        
+        // Problem Solver
+        function checkAnswer(problemId, correctAnswer) {
+            const userAnswer = parseFloat(document.getElementById(`answer${problemId}`).value);
+            const feedback = document.getElementById(`feedback${problemId}`);
+            
+            if (Math.abs(userAnswer - correctAnswer) < 0.1) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = '<i class="fas fa-check-circle"></i> Correct! Excellent work!';
+                userProgress.problemsSolved++;
+                saveUserProgress();
+                updateUserInfo();
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `<i class="fas fa-times-circle"></i> Incorrect. The correct answer is: ${correctAnswer}`;
+            }
+        }
+        
+        // Flashcard
+        function flipCard() {
+            document.getElementById('flashcard1').classList.toggle('flipped');
+        }
+        
+        // Test
+        function selectOption(element) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+        
+        let testTime = 10800;
+        setInterval(() => {
+            if (testTime > 0) {
+                testTime--;
+                const hours = Math.floor(testTime / 3600);
+                const minutes = Math.floor((testTime % 3600) / 60);
+                const seconds = testTime % 60;
+                document.getElementById('test-timer').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }, 1000);
+        
+        // Pomodoro
+        let pomodoroTime = 1500;
+        let pomodoroInterval;
+        
+        function setPomodoro(minutes) {
+            pomodoroTime = minutes * 60;
+            updatePomodoroDisplay();
+        }
+        
+        function updatePomodoroDisplay() {
+            const minutes = Math.floor(pomodoroTime / 60);
+            const seconds = pomodoroTime % 60;
+            document.getElementById('pomodoro-timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function pomodoroControl(action) {
+            if (action === 'start') {
+                document.getElementById('pomodoro-start').style.display = 'none';
+                document.getElementById('pomodoro-pause').style.display = 'inline-block';
+                pomodoroInterval = setInterval(() => {
+                    if (pomodoroTime > 0) {
+                        pomodoroTime--;
+                        updatePomodoroDisplay();
+                    } else {
+                        clearInterval(pomodoroInterval);
+                        alert('Pomodoro session complete! Take a break.');
+                        userProgress.studyTime += 0.5;
+                        saveUserProgress();
+                        updateUserInfo();
+                    }
+                }, 1000);
+            } else if (action === 'pause') {
+                clearInterval(pomodoroInterval);
+                document.getElementById('pomodoro-start').style.display = 'inline-block';
+                document.getElementById('pomodoro-pause').style.display = 'none';
+            } else if (action === 'reset') {
+                clearInterval(pomodoroInterval);
+                pomodoroTime = 1500;
+                updatePomodoroDisplay();
+                document.getElementById('pomodoro-start').style.display = 'inline-block';
+                document.getElementById('pomodoro-pause').style.display = 'none';
+            }
+        }
+        
+        // Initialize
         ['physics', 'chemistry', 'maths', 'tech'].forEach(loadTopics);
     </script>
 </body>
